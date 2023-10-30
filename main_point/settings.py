@@ -17,6 +17,12 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+import dj_database_url
+
+import environ
+env = environ.Env()
+environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b3z2+d2axew1j)b)=b!2&$mj%d)b=$zo(0x=tutsgw-a317hsv'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,14 +87,10 @@ WSGI_APPLICATION = 'main_point.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# render live DB
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'OPTIONS': {
-            'service': 'db_main_point',
-            'passfile': '.my_pgpass',
-        },
-    }
+    'default': dj_database_url.parse(env('DATABASE_URL'))
 }
 
 
@@ -136,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # cloudinary credentials
 cloudinary.config(
-    cloud_name = "dampvdmwf",
-    api_key = "394793753469515",
-    api_secret = "DWHdIPhT-TekdPxvF2dVMbV2ZTU"
+    cloud_name = env('CLOUD_NAME'),
+    api_key = env('API_KEY'),
+    api_secret = env('API_SECRET')
 )
