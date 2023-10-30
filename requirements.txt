@@ -1,5 +1,11 @@
 asgiref==3.7.2
 backports.zoneinfo==0.2.1
+certifi==2023.7.22
+cloudinary==1.36.0
 Django==4.2.6
+django-template-breakpoint==0.0.1
+psycopg2-binary==2.9.9
+six==1.16.0
 sqlparse==0.4.4
 typing-extensions==4.8.0
+urllib3==2.0.7
