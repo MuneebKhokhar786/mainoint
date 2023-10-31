@@ -8,8 +8,7 @@
 
     <title>Main Point - Your Connection to Innovation</title>
 
-    {% load static %}
-    {% load breakpoint %}
+    {% load static %} {% load breakpoint %}
     <!-- Google font -->
     <link
       href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700"
@@ -34,13 +33,17 @@
       sizes="16x16"
       href="{% static 'laptop_shop/images/manifest/favicon-16x16.png'%}"
     />
-    <link rel="manifest" href="{% static 'laptop_shop/images/manifest/site.webmanifest'%}" />
+    <link
+      rel="manifest"
+      href="{% static 'laptop_shop/images/manifest/site.webmanifest'%}"
+    />
 
     <!-- Bootstrap -->
     <link
-      type="text/css"
       rel="stylesheet"
-      href="{% static 'laptop_shop/css/bootstrap.min.css' %}"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
     />
 
     <!-- Slick -->
@@ -61,6 +64,7 @@
       integrity="sha512-6f87+OtwjlPp6tI8Fz0vh7gsRrUTzxxq4Yz7FstYTtNs+LDuHJg8j4bZRliwTMqcEmDw6SpBYrVZaODofiyLag=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
+      async
     ></script>
 
     <!-- Font Awesome Icon -->
@@ -126,6 +130,7 @@
               <div class="header-logo">
                 <a href="/" class="logo">
                   <img
+                    loading="lazy"
                     src="{% static 'laptop_shop/images/mplogoHD.png' %}"
                     alt=""
                   />
@@ -178,7 +183,11 @@
                     <div class="cart-list">
                       <div class="product-widget">
                         <div class="product-img">
-                          <img src="./img/product01.png" alt="" />
+                          <img
+                            loading="lazy"
+                            src="./img/product01.png"
+                            alt=""
+                          />
                         </div>
                         <div class="product-body">
                           <h3 class="product-name">
@@ -195,7 +204,11 @@
 
                       <div class="product-widget">
                         <div class="product-img">
-                          <img src="./img/product02.png" alt="" />
+                          <img
+                            loading="lazy"
+                            src="./img/product02.png"
+                            alt=""
+                          />
                         </div>
                         <div class="product-body">
                           <h3 class="product-name">
