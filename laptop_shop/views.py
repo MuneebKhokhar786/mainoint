@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Count, OuterRef, Subquery
-from .models import Product, Collection, ProductImage
+from .models import Product, Collection, ProductImage, ProductVideo
 
 
 def home(request):
@@ -33,4 +33,7 @@ def show(request, product_slug):
     product = Product.objects.get(slug__iexact=product_slug)
     product_images = ProductImage.objects.filter(
         product=product).values('image')
-    return render(request, 'laptop_shop/show.html', {'product': product, 'product_images': product_images})
+    product_videos = ProductVideo.objects.filter(
+        product=product).values('video')
+    return render(request, 'laptop_shop/show.html',
+                    {'product': product, 'product_images': product_images, 'product_videos': product_videos})

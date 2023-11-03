@@ -50,3 +50,10 @@ class ProductImage(CloudinaryImageMixin, models.Model):
 
     def __str__(self):
         return self.product.name
+
+class ProductVideo(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='videos')
+    video = CloudinaryField('video', folder='main_point/products/videos/', resource_type='video',blank=True, null=True)
+
+    def __str__(self):
+        return self.product.name
