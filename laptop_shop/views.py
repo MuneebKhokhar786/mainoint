@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from django.db.models import Count, OuterRef, Subquery
 from .models import Product, Collection, ProductImage, ProductVideo
-from .serializers import ProductSerializer, ProductListSerializer
+from .serializers import ProductSerializer, ProductListSerializer, CollectionSerializer
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -15,6 +15,10 @@ class ProductViewSet(viewsets.ModelViewSet):
             return ProductListSerializer
         return ProductSerializer
 
+class CollectionViewSet(viewsets.ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+    lookup_field = 'slug'
 
 def home(request):
     products = Product.objects.all()

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, ProductImage, ProductVideo
+from .models import Product, ProductImage, ProductVideo, Collection
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +32,9 @@ class ProductListSerializer(serializers.ModelSerializer):
         if first_image:
             return first_image.image.url
         return None
+
+class CollectionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Collection
+        fields = '__all__'
