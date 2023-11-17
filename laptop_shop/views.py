@@ -1,6 +1,19 @@
 from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.response import Response
 from django.db.models import Count, OuterRef, Subquery
 from .models import Product, Collection, ProductImage, ProductVideo
+from .serializers import ProductSerializer, ProductListSerializer
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    lookup_field = 'slug'
+
+    def get_serializer_class(self):
+        # Use different serializers based on the request type
+        if self.action == 'list':
+            return ProductListSerializer
+        return ProductSerializer
 
 
 def home(request):

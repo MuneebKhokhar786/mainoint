@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
+
+import handleRequest  from './axios.js'
 
 function App() {
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    handleRequest('/v1/api/products').then((res) => {
+      const products = res.data;
+      setProducts(products);
+    }).catch((err) => { console.error(err); });
+  }, []);
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {products.map((product) => (
+        <div>
+            <p>{product.name} </p>
+            <img src={product.image} alt=""/>
+        </div>
+      ))}
     </div>
   );
 }
