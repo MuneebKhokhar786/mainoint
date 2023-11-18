@@ -1,10 +1,37 @@
 import { useState, useEffect } from "react";
+import Slider from "react-slick";
 import Product from "../components/product.jsx";
 import Collection from "../components/collection.jsx";
 import handleRequest from "../axios.js";
 import Newsletter from "../components/newsletter.jsx";
 
 const Home = () => {
+  const settings = {
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,
+    infinite: true,
+    speed: 300,
+    dots: false,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   const [products, setProducts] = useState([]);
   const [collections, setCollections] = useState([]);
 
@@ -30,24 +57,24 @@ const Home = () => {
 
   return (
     <>
-      <div class="section">
-        <div class="container">
-          <div class="row">
+      <div className="section">
+        <div className="container">
+          <div className="row">
             {collections.map((collection) => (
               <Collection collection={collection} />
             ))}
           </div>
         </div>
       </div>
-      <div class="section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="section-title">
-                <h3 class="title">Featured Products</h3>
-                <div class="section-nav">
-                  <ul class="section-tab-nav tab-nav">
-                    <li class="active">
+      <div className="section">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="section-title">
+                <h3 className="title">Featured Products</h3>
+                <div className="section-nav">
+                  <ul className="section-tab-nav tab-nav">
+                    <li className="active">
                       <a data-toggle="tab" href="#tab1">
                         Laptops
                       </a>
@@ -71,16 +98,18 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-12">
-              <div class="row">
-                <div class="products-tabs">
-                  <div id="tab1" class="tab-pane active">
-                    <div class="products-slick" data-nav="#slick-nav-1">
+            <div className="col-md-12">
+              <div className="row">
+                <div className="products-tabs">
+                  <div id="tab1" className="tab-pane active">
+                    <div className="products-slick" data-nav="#slick-nav-1">
+                    <Slider {...settings}>
                       {products.map((product) => (
                         <Product product={product} />
                       ))}
+                    </Slider>
                     </div>
-                    <div id="slick-nav-1" class="products-slick-nav"></div>
+                    <div id="slick-nav-1" className="products-slick-nav"></div>
                   </div>
                 </div>
               </div>
@@ -88,12 +117,12 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div id="hot-deal" class="section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="hot-deal">
-                <ul class="hot-deal-countdown">
+      <div id="hot-deal" className="section">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="hot-deal">
+                <ul className="hot-deal-countdown">
                   <li>
                     <div>
                       <h3>02</h3>
@@ -119,9 +148,9 @@ const Home = () => {
                     </div>
                   </li>
                 </ul>
-                <h2 class="text-uppercase">hot deal this week</h2>
+                <h2 className="text-uppercase">hot deal this week</h2>
                 <p>New Collection Up to 50% OFF</p>
-                <a class="primary-btn cta-btn" href="#">
+                <a className="primary-btn cta-btn" href="#">
                   Shop now
                 </a>
               </div>
@@ -129,15 +158,15 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div class="section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="section-title">
-                <h3 class="title">New Arrivals</h3>
-                <div class="section-nav">
-                  <ul class="section-tab-nav tab-nav">
-                    <li class="active">
+      <div className="section">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="section-title">
+                <h3 className="title">New Arrivals</h3>
+                <div className="section-nav">
+                  <ul className="section-tab-nav tab-nav">
+                    <li className="active">
                       <a data-toggle="tab" href="#tab2">
                         Laptops
                       </a>
@@ -161,16 +190,16 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-12">
-              <div class="row">
-                <div class="products-tabs">
-                  <div id="tab2" class="tab-pane fade in active">
-                    <div class="products-slick" data-nav="#slick-nav-2">
+            <div className="col-md-12">
+              <div className="row">
+                <div className="products-tabs">
+                  <div id="tab2" className="tab-pane fade in active">
+                    <div className="products-slick" data-nav="#slick-nav-2">
                       {products.map((product) => (
                         <Product product={product} />
                       ))}
                     </div>
-                    <div id="slick-nav-2" class="products-slick-nav"></div>
+                    <div id="slick-nav-2" className="products-slick-nav"></div>
                   </div>
                 </div>
               </div>

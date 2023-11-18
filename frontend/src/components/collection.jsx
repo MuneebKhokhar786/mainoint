@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { CLOUDINARY_URL } from "../constants";
 
-const Collection= ({ collection }) => (
+const Collection = ({ collection }) => (
   <>
-    <div class="col-md-4 col-xs-6">
-    <Link to={`/${collection.name}/products`}>
-        <div class="shop">
-          <div class="shop-img">
+    <div className="col-md-4 col-xs-6">
+      <Link to={`/${collection.name}/products`}>
+        <div className="shop">
+          <div className="shop-img">
             <img
               loading="lazy"
               src={`${CLOUDINARY_URL}/${collection.image}`}
@@ -14,21 +14,19 @@ const Collection= ({ collection }) => (
               referrerpolicy="no-referrer"
             />
           </div>
-          <div class="shop-body">
+          <div className="shop-body">
             <h3>
-              { collection.name } <br />
+              {collection.name} <br />
               Collection
             </h3>
-            <Link
-              to={`/${collection.name}/products`}
-              class="cta-btn"
-              >Shop now <i class="fa fa-arrow-circle-right"></i
-            ></Link>
+            <Link to={`/${collection.name}/products`} className="cta-btn">
+              Shop now <i className="fa fa-arrow-circle-right"></i>
+            </Link>
           </div>
         </div>
       </Link>
-      </div>
+    </div>
   </>
-)
+);
 
-export default Collection
+export default Collection;
