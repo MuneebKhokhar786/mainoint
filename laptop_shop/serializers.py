@@ -22,6 +22,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ProductListSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
+    collection = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -32,6 +33,9 @@ class ProductListSerializer(serializers.ModelSerializer):
         if first_image:
             return first_image.image.url
         return None
+
+    def get_collection(self, obj):
+        return obj.collection.name
 
 class CollectionSerializer(serializers.ModelSerializer):
 

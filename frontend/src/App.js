@@ -1,30 +1,27 @@
 import './App.css';
-import { useState, useEffect } from 'react';
 
-import handleRequest  from './axios.js'
+
+
+import Header from './components/header';
+import Footer from './components/footer';
+import Home from './pages/home';
+import ProductIndex from './pages/product_index';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 function App() {
-
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    handleRequest('/v1/api/products').then((res) => {
-      const products = res.data;
-      setProducts(products);
-    }).catch((err) => { console.error(err); });
-  }, []);
-
-
-
   return (
-    <div>
-      {products.map((product) => (
-        <div>
-            <p>{product.name} </p>
-            <img src={product.image} alt=""/>
-        </div>
-      ))}
-    </div>
+		<Router>
+			<div>
+				<Header />
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/:collection/products" element={<ProductIndex />} />
+				</Routes>
+				<Home />
+				<Footer />
+			</div>
+		</Router>
   );
 }
 
