@@ -16,19 +16,27 @@ const Home = () => {
     arrows: true,
     responsive: [
       {
-        breakpoint: 991,
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 786,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 1,
-        },
+          slidesToScroll: 1
+        }
       },
       {
         breakpoint: 480,
         settings: {
+          centerMode: true,
           slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
+          slidesToScroll: 1
+        }
+      }
     ],
   };
 
@@ -100,18 +108,11 @@ const Home = () => {
             </div>
             <div className="col-md-12">
               <div className="row">
-                <div className="products-tabs">
-                  <div id="tab1" className="tab-pane active">
-                    <div className="products-slick" data-nav="#slick-nav-1">
-                    <Slider {...settings}>
+                    <Slider {...settings} className="product-carousel">
                       {products.map((product) => (
                         <Product product={product} />
                       ))}
                     </Slider>
-                    </div>
-                    <div id="slick-nav-1" className="products-slick-nav"></div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

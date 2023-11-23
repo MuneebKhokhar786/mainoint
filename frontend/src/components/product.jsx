@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const Product = ({ product }) => (
-  <div style={{width: 243}}>
+  <div style={{height: 520}}>
     <div className="product">
       <div className="product-img">
         <img

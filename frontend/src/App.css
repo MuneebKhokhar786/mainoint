@@ -947,7 +947,7 @@ textarea.input {
 .product .product-body .product-rating>i {
   position: relative;
   width: 14px;
-  margin-right: -4px;
+  margin-right: 3px;
   background: #FFF;
   color: #E4E7ED;
   z-index: 10;
@@ -1172,9 +1172,6 @@ textarea.input {
   height: 0;
   opacity: 0;
   visibility: hidden;
-  overflow-y: hidden;
-  padding-bottom: 60px;
-  margin-bottom: -60px;
 }
 
 .products-tabs>.tab-pane.active {
@@ -2189,4 +2186,9 @@ textarea.input {
     float: none;
     margin-top: 10px;
   }
+}
+.product-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
