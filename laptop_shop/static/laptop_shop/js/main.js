@@ -1,6 +1,42 @@
 (function($) {
 	"use strict"
 
+	function getCookie(name){
+		let cookieValue=null;
+		if(document.cookie && document.cookie !== ""){
+		const cookies=document.cookie.split(";");
+		for(let i=0; i<cookies.length; i++){
+		const cookie=cookies[i].trim();
+		// Does this cookie string begin with the name we want?
+		if(cookie.substring(0, name.length+1)===(name+"=")){
+		cookieValue=decodeURIComponent(cookie.substring(name.length+1));
+		break;
+		}
+		}
+		}
+		return cookieValue;
+		}
+
+	$(".add-to-cart-btn").on('click', function () {
+		var productId = $(this).data("product-id");
+
+		$.ajax({
+			type: "POST",
+			url: "/add-to-cart/",
+			data: { product_id: productId },
+			headers: {
+				"X-Requested-With":"XMLHttpRequest",
+				"X-CSRFToken":getCookie("csrftoken"),
+			},
+			success: function () {
+				alert("Product added to cart!");
+			},
+			error: function () {
+				alert("Error adding product to cart!");
+			},
+		});
+	});
+
 	// Mobile Nav toggle
 	$('.menu-toggle > a').on('click', function (e) {
 		e.preventDefault();
@@ -9,6 +45,7 @@
 
 	// Fix cart dropdown from closing
 	$('.cart-dropdown').on('click', function (e) {
+		alert('ghjk');
 		e.stopPropagation();
 	});
 

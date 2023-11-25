@@ -30,12 +30,12 @@
       <!-- Product main img -->
       <div class="col-md-5 col-md-push-2">
         <div id="product-main-img">
-          {% for pd in product_images %}
+          {% for pd in product.images.all %}
           <div class="product-preview">
             <img loading="lazy" src="{{ pd.image.url }}" alt="" />
           </div>
           {% endfor %}
-          {% for prod in product_videos %}
+          {% for prod in product.videos.all %}
           <div class="product-preview">
             <video controls loop poster="http://res.cloudinary.com/dampvdmwf/video/upload/c_limit,w_600,h_600/{{ prod.video.public_id }}.jpg">
               <source src="http://res.cloudinary.com/dampvdmwf/video/upload/c_limit,w_600,h_600/{{ prod.video.public_id }}.avi" type="video/avi">
@@ -52,12 +52,12 @@
       <!-- Product thumb imgs -->
       <div class="col-md-2 col-md-pull-5">
         <div id="product-imgs">
-          {% for pd in product_images %}
+          {% for pd in product.images.all %}
           <div class="product-preview">
             <img loading="auto" src="{{ pd.image.url }}" alt="" />
           </div>
           {% endfor %}
-          {% for prod in product_videos %}
+          {% for prod in product.videos.all %}
           <div class="product-preview">
             <img src="http://res.cloudinary.com/dampvdmwf/video/upload/l_v2vcf7gyx6gdmieeov9s/fl_layer_apply,g_south_east/{{ prod.video.public_id }}.jpg">
             </img>

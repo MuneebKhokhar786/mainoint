@@ -59,6 +59,7 @@
     />
 
     <!-- nouislider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.min.css" integrity="sha512-AYPBFS1TI5DlR5nkKxzCljZyS5gib+JkSQ5uXF/eIiBUZ+GJNacqQHAkvwLB3BA1d+ps2wuuzMwm1ExxzWoFnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.min.js"
       integrity="sha512-6f87+OtwjlPp6tI8Fz0vh7gsRrUTzxxq4Yz7FstYTtNs+LDuHJg8j4bZRliwTMqcEmDw6SpBYrVZaODofiyLag=="
@@ -82,6 +83,7 @@
       rel="stylesheet"
       href="{% static 'laptop_shop/css/style.css'%}"
     />
+    {% csrf_token %}
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -177,55 +179,36 @@
                   >
                     <i class="fa fa-shopping-cart"></i>
                     <span>Your Cart</span>
-                    <div class="qty">3</div>
+                    <div class="qty">{{cart_items|length}}</div>
                   </a>
                   <div class="cart-dropdown">
                     <div class="cart-list">
-                      <div class="product-widget">
-                        <div class="product-img">
-                          <img
-                            loading="lazy"
-                            src="./img/product01.png"
-                            alt=""
-                          />
+                      {% for item in cart_items %}
+                        <div class="product-widget">
+                          <div class="product-img">
+                            <img
+                              loading="lazy"
+                              src="{{item.product.images.first.image.url}}"
+                              alt=""
+                            />
+                          </div>
+                          <div class="product-body">
+                            <h3 class="product-name">
+                              <a href="{% url 'show' product_slug=item.product.slug %}">{{item.product.name}}</a>
+                            </h3>
+                            <h4 class="product-price">
+                              <span class="qty">{{item.quantity}}x</span>${{item.product.price}}
+                            </h4>
+                          </div>
+                          <button class="delete">
+                            <i class="fa fa-close"></i>
+                          </button>
                         </div>
-                        <div class="product-body">
-                          <h3 class="product-name">
-                            <a href="#">product name goes here</a>
-                          </h3>
-                          <h4 class="product-price">
-                            <span class="qty">1x</span>$980.00
-                          </h4>
-                        </div>
-                        <button class="delete">
-                          <i class="fa fa-close"></i>
-                        </button>
-                      </div>
-
-                      <div class="product-widget">
-                        <div class="product-img">
-                          <img
-                            loading="lazy"
-                            src="./img/product02.png"
-                            alt=""
-                          />
-                        </div>
-                        <div class="product-body">
-                          <h3 class="product-name">
-                            <a href="#">product name goes here</a>
-                          </h3>
-                          <h4 class="product-price">
-                            <span class="qty">3x</span>$980.00
-                          </h4>
-                        </div>
-                        <button class="delete">
-                          <i class="fa fa-close"></i>
-                        </button>
-                      </div>
+                      {% endfor %}
                     </div>
                     <div class="cart-summary">
-                      <small>3 Item(s) selected</small>
-                      <h5>SUBTOTAL: $2940.00</h5>
+                      <small> {{cart_items|length}} Item(s) selected</small>
+                      <h5>SUBTOTAL: ${{total_price}}</h5>
                     </div>
                     <div class="cart-btns">
                       <a href="#">View Cart</a>
@@ -414,7 +397,6 @@
     <script src="{% static 'laptop_shop/js/jquery.min.js'%}"></script>
     <script src="{% static 'laptop_shop/js/bootstrap.min.js'%}"></script>
     <script src="{% static 'laptop_shop/js/slick.min.js'%}"></script>
-    <script src="{% static 'laptop_shop/js/nouislider.min.js'%}"></script>
     <script src="{% static 'laptop_shop/js/jquery.zoom.min.js'%}"></script>
     <script src="{% static 'laptop_shop/js/main.js'%}"></script>
   </body>

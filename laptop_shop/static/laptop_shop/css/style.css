@@ -749,12 +749,14 @@ textarea.input {
 }
 
 .shop .shop-img {
+  height: 100%;
   position: relative;
   background-color: #E4E7ED;
   z-index: -1;
 }
 
 .shop .shop-img>img {
+  height: inherit;
   width: 100%;
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
