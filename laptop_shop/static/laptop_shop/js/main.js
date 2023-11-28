@@ -18,24 +18,38 @@
 		}
 
 	$(".add-to-cart-btn").on('click', function () {
-		var productId = $(this).data("product-id");
+		let productId = $(this).data("product-id");
+		console.log($(`#qty-${productId}`).val())
+		let quantity = $(`#qty-${productId}`).val() || 1;
 
 		$.ajax({
-			type: "POST",
-			url: "/add-to-cart/",
-			data: { product_id: productId },
-			headers: {
-				"X-Requested-With":"XMLHttpRequest",
-				"X-CSRFToken":getCookie("csrftoken"),
-			},
-			success: function () {
-				alert("Product added to cart!");
+			type: "GET",
+			url: `/add-to-cart/${productId}/${quantity}`,
+			success: function (data) {
+				$("#cart-qty").html(data.total_quantity)
 			},
 			error: function () {
 				alert("Error adding product to cart!");
 			},
 		});
 	});
+
+	$("#cart-container").on("show.bs.dropdown", function () {
+		$("#cart-spinner").removeClass("hidden");
+		$(".de-cart").addClass("hidden");
+		$.ajax({
+			type: "GET",
+			url: `/update-cart`,
+			success: function (data) {
+				$("#cart-container").html(data.cart_html);
+				$("#cart-spinner").addClass("hidden");
+				$(".de-cart").removeClass("hidden");
+			},
+			error: function () {
+				alert("Error updating cart!");
+			},
+		});
+		});
 
 	// Mobile Nav toggle
 	$('.menu-toggle > a').on('click', function (e) {
@@ -45,7 +59,6 @@
 
 	// Fix cart dropdown from closing
 	$('.cart-dropdown').on('click', function (e) {
-		alert('ghjk');
 		e.stopPropagation();
 	});
 

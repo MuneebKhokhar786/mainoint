@@ -171,52 +171,11 @@
                 <!-- /Wishlist -->
 
                 <!-- Cart -->
-                <div class="dropdown">
-                  <a
-                    class="dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-expanded="true"
-                  >
-                    <i class="fa fa-shopping-cart"></i>
-                    <span>Your Cart</span>
-                    <div class="qty">{{cart_items|length}}</div>
-                  </a>
-                  <div class="cart-dropdown">
-                    <div class="cart-list">
-                      {% for item in cart_items %}
-                        <div class="product-widget">
-                          <div class="product-img">
-                            <img
-                              loading="lazy"
-                              src="{{item.product.images.first.image.url}}"
-                              alt=""
-                            />
-                          </div>
-                          <div class="product-body">
-                            <h3 class="product-name">
-                              <a href="{% url 'show' product_slug=item.product.slug %}">{{item.product.name}}</a>
-                            </h3>
-                            <h4 class="product-price">
-                              <span class="qty">{{item.quantity}}x</span>${{item.product.price}}
-                            </h4>
-                          </div>
-                          <button class="delete">
-                            <i class="fa fa-close"></i>
-                          </button>
-                        </div>
-                      {% endfor %}
-                    </div>
-                    <div class="cart-summary">
-                      <small> {{cart_items|length}} Item(s) selected</small>
-                      <h5>SUBTOTAL: ${{total_price}}</h5>
-                    </div>
-                    <div class="cart-btns">
-                      <a href="#">View Cart</a>
-                      <a href="#"
-                        >Checkout <i class="fa fa-arrow-circle-right"></i
-                      ></a>
-                    </div>
-                  </div>
+                <div class="dropdown" id="cart-container">
+                  {% block cart_list %}
+                  <!-- Include the cart list partial here -->
+                    {% include './partial_cart_list.html' %}
+                  {% endblock %}
                 </div>
                 <!-- /Cart -->
 

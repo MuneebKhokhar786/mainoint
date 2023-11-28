@@ -112,13 +112,13 @@
           <div class="add-to-cart">
             <div class="qty-label">
               Qty
-              <div class="input-number">
-                <input type="number" />
+              <div class="input-number" >
+                <input type="number" id="qty-{{product.id}}" value="1" />
                 <span class="qty-up">+</span>
                 <span class="qty-down">-</span>
               </div>
             </div>
-            <button class="add-to-cart-btn">
+            <button class="add-to-cart-btn" data-product-id={{product.id}}>
               <i class="fa fa-shopping-cart"></i> add to cart
             </button>
           </div>

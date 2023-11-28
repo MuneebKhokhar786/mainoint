@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.core.cache import cache
 from django.db.models import Count, OuterRef, Subquery
 from .models import Product, Collection, ProductImage
@@ -20,24 +21,36 @@ def home(request):
         collection.products = collection_with_first_image
 
     cart = cache.get('cart', {})
+    total_quantity = sum(cart.values())
+
+    return render(request, 'laptop_shop/home.html',
+                {'products': products_with_first_image, 'collections': collections, 'total_quantity': total_quantity})
+
+def update_cart(request):
+    cart = cache.get('cart', {})
 
     product_ids = list(cart.keys())
-    cart_items = []
     total_price = 0
+    total_quantity = 0
+    cart_items = []
 
-    cart_products = Product.objects.prefetch_related('images').filter(id__in=product_ids)
+    if product_ids:
+        cart_products = Product.objects.filter(id__in=product_ids).prefetch_related('images')
+        product_dict = {product.id: product for product in cart_products}
 
-    for product in cart_products:
-        quantity = cart[str(product.id)]
-        cart_items.append({
-            'product': product,
-            'quantity': quantity,
-        })
-        total_price +=  product.price * quantity
-    return render(request, 'laptop_shop/home.html',
-                {'products': products_with_first_image, 'collections': collections,
-                    'cart_items': cart_items, 'total_price': total_price})
+        for product_id, quantity in cart.items():
+            product = product_dict.get(product_id)
+            if product:
+                cart_items.append({
+                    'product': product,
+                    'quantity': quantity,
+                })
+                total_price += product.price * quantity
+                total_quantity += quantity
 
+    cart_html = render_to_string('laptop_shop/partial_cart_list.html',
+                                {'cart_items': cart_items, 'total_price': total_price, 'total_quantity': total_quantity})
+    return JsonResponse({'cart_html': cart_html})
 
 def index(request, collection_name):
     products = Product.objects.prefetch_related('images').filter(collection__name__iexact=collection_name)
@@ -46,19 +59,25 @@ def index(request, collection_name):
 
 def show(request, product_slug):
     product = Product.objects.prefetch_related().get(slug__iexact=product_slug)
-    return render(request, 'laptop_shop/show.html', {'product': product})
-
-
-def add_to_cart(request):
-    product_id = request.POST.get('product_id')
     cart = cache.get('cart', {})
+    total_quantity = sum(cart.values())
+    return render(request, 'laptop_shop/show.html', {'product': product, 'total_quantity': total_quantity})
 
-    if not cart.get(product_id, {}):
-        cart[product_id] = 1
+
+def add_to_cart(request, product_id, increment=1):
+    cart = cache.get('cart', {})
+    quantity = sum(cart.values())
+
+    if not cart.get(product_id, 0):
+        cart[product_id] = increment
     else:
-        cart[product_id] += 1
+        cart[product_id] += increment
+
+    quantity += increment
 
     cache.set('cart', cart)
 
-    return JsonResponse({'message': 'Product added to cart successfully'})
+    return JsonResponse({'total_quantity': quantity})
+
+
 
