@@ -172,6 +172,15 @@
 
                 <!-- Cart -->
                 <div class="dropdown" id="cart-container">
+                    <a
+                      class="dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-expanded="true"
+                    >
+                      <i class="fa fa-shopping-cart"></i>
+                      <span>Your Cart</span>
+                      <div class="qty cart-qty">{{total_quantity}}</div>
+                    </a>
                   {% block cart_list %}
                   <!-- Include the cart list partial here -->
                     {% include './partial_cart_list.html' %}

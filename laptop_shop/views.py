@@ -79,5 +79,21 @@ def add_to_cart(request, product_id, increment=1):
 
     return JsonResponse({'total_quantity': quantity})
 
+def remove_from_cart(request, product_id):
+    cart = cache.get('cart', {})
+    total_quantity = sum(cart.values())
+    quantity = 0
+
+    if cart.get(product_id, 0):
+        cart[product_id] -= 1
+        quantity = cart[product_id]
+        if quantity == 0:
+            del cart[product_id]
+        total_quantity -= 1
+
+    cache.set('cart', cart)
+
+    return JsonResponse({'total_quantity': total_quantity, 'quantity': quantity})
+
 
 

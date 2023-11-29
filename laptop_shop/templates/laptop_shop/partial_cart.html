@@ -14,7 +14,7 @@
       <span class="qty" id="qty-{{item.product.id}}">{{item.quantity}}x</span>${{item.product.price}}
     </h4>
   </div>
-  <button class="delete">
+  <button class="delete remove-item" data-product-id={{item.product.id}} data-price={{item.product.price}}>
     <i class="fa fa-close"></i>
   </button>
 </div>

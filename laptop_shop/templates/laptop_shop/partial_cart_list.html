@@ -1,39 +1,59 @@
-
-  <a
-    class="dropdown-toggle"
-    data-toggle="dropdown"
-    aria-expanded="true"
-  >
-    <i class="fa fa-shopping-cart"></i>
-    <span>Your Cart</span>
-    <div class="qty" id="cart-qty">{{total_quantity}}</div>
-  </a>
-  <div class="cart-dropdown">
-    <div class="col-xs-12 hidden" id="cart-spinner"  style="height: 60px">
-      <div class="spinner"></div>
+<div class="cart-dropdown">
+  <div class="col-xs-12 hidden" id="cart-spinner"  style="height: 60px">
+    <div class="spinner"></div>
+  </div>
+  {% if cart_items %}
+  <div class="cart-list de-cart" id="cart-list-container">
+      {% for item in cart_items %}
+        {% block cart %}
+          {% include "laptop_shop/partial_cart.html" with item=item %}
+        {% endblock %}
+      {% endfor %}
+  </div>
+  {% else %}
+    <div class="de-cart">
+      <h5>Cart is empty</h5>
     </div>
-    {% if cart_items %}
-    <div class="cart-list de-cart" id="cart-list-container">
-        {% for item in cart_items %}
-          {% block cart %}
-            {% include "laptop_shop/partial_cart.html" with item=item %}
-          {% endblock %}
-        {% endfor %}
-    </div>
-    <div class="de-cart cart-summary">
-      <small> {{cart_items|length}} Item(s) selected</small>
-      <h5>SUBTOTAL: $<span id="cart-total">{{total_price}}</span></h5>
-    </div>
-    {% else %}
-      <div class="de-cart">
-        <h5>Cart is empty</h5>
-      </div>
-    {% endif %}
-    <div class="cart-btns">
-      <a href="#">View Cart</a>
-      <a href="#"
-        >Checkout <i class="fa fa-arrow-circle-right"></i
-      ></a>
-    </div>
+  {% endif %}
+  <div class="de-cart cart-summary">
+    <small> <span class="cart-qty">{{total_quantity}}</span> Item(s) selected</small>
+    <h5>SUBTOTAL: $<span id="cart-total">{{total_price}}</span></h5>
+  </div>
+  <div class="cart-btns">
+    <a href="#">View Cart</a>
+    <a href="#"
+      >Checkout <i class="fa fa-arrow-circle-right"></i
+    ></a>
   </div>
 </div>
+
+<script>
+  $(document).ready(function () {
+  $(".remove-item").on("click", function (e) {
+    e.stopPropagation();
+		let productId = $(this).data("product-id");
+    let price = $(this).data("price");
+    let el = $("#cart-total");
+    let prev_total = parseFloat(el.text());
+    let total = prev_total - price;
+		$.ajax({
+			type: "GET",
+			url: `/remove-from-cart/${productId}`,
+			success: function (data) {
+				$(".cart-qty").html(data.total_quantity);
+        el.html(total);
+        if(data.quantity)
+				  $(`#qty-${productId}`).html(`${data.quantity}x`);
+        else
+          $(`#cart-${productId}`).remove();
+
+        if(!data.total_quantity)
+          $("#cart-list-container").html("<h5>Cart is empty</h5>");
+			},
+			error: function () {
+				alert("Error updating cart!");
+			},
+		});
+
+		});});
+</script>

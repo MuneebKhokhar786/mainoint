@@ -101,7 +101,8 @@ CACHES = {
         'LOCATION': env('REDIS_URL'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
+        },
+        'TIMEOUT': 1800,
     }
 }
 

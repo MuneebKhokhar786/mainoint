@@ -19,14 +19,13 @@
 
 	$(".add-to-cart-btn").on('click', function () {
 		let productId = $(this).data("product-id");
-		console.log($(`#qty-${productId}`).val())
 		let quantity = $(`#qty-${productId}`).val() || 1;
 
 		$.ajax({
 			type: "GET",
 			url: `/add-to-cart/${productId}/${quantity}`,
 			success: function (data) {
-				$("#cart-qty").html(data.total_quantity)
+				$(".cart-qty").html(data.total_quantity)
 			},
 			error: function () {
 				alert("Error adding product to cart!");
@@ -41,7 +40,7 @@
 			type: "GET",
 			url: `/update-cart`,
 			success: function (data) {
-				$("#cart-container").html(data.cart_html);
+				$(".cart-dropdown").replaceWith(data.cart_html);
 				$("#cart-spinner").addClass("hidden");
 				$(".de-cart").removeClass("hidden");
 			},
