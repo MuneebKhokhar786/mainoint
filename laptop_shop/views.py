@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.urls import reverse_lazy
+from django.views import generic
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.db.models import Count, OuterRef, Subquery
 from .models import Product, Collection, ProductImage
+from django.contrib.auth.forms import UserCreationForm
 
 
 def home(request):
@@ -25,6 +29,13 @@ def home(request):
 
     return render(request, 'laptop_shop/home.html',
                 {'products': products_with_first_image, 'collections': collections, 'total_quantity': total_quantity})
+
+
+class SignupPageView(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"
+
 
 def update_cart(request):
     cart = cache.get('cart', {})
@@ -56,7 +67,7 @@ def index(request, collection_name):
     products = Product.objects.prefetch_related('images').filter(collection__name__iexact=collection_name)
     return render(request, 'laptop_shop/index.html', {'products': products})
 
-
+@login_required
 def show(request, product_slug):
     product = Product.objects.prefetch_related().get(slug__iexact=product_slug)
     cart = cache.get('cart', {})
