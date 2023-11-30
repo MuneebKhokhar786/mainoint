@@ -4,10 +4,11 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.core.cache import cache
 from django.db.models import Count, OuterRef, Subquery
 from .models import Product, Collection, ProductImage
-from django.contrib.auth.forms import UserCreationForm
+from .decorators import ajax_login_required
 
 
 def home(request):
@@ -24,7 +25,8 @@ def home(request):
             image=Subquery(first_product_image.values('image')))
         collection.products = collection_with_first_image
 
-    cart = cache.get('cart', {})
+    user_id = cache.get('user_id')
+    cart = cache.get(user_id, {'cart': {}})['cart']
     total_quantity = sum(cart.values())
 
     return render(request, 'laptop_shop/home.html',
@@ -38,7 +40,8 @@ class SignupPageView(generic.CreateView):
 
 
 def update_cart(request):
-    cart = cache.get('cart', {})
+    user_id = cache.get('user_id')
+    cart = cache.get(user_id, {'cart': {}})['cart']
 
     product_ids = list(cart.keys())
     total_price = 0
@@ -70,13 +73,14 @@ def index(request, collection_name):
 @login_required
 def show(request, product_slug):
     product = Product.objects.prefetch_related().get(slug__iexact=product_slug)
-    cart = cache.get('cart', {})
+    user_id = cache.get('user_id')
+    cart = cache.get(user_id, {'cart': {}})['cart']
     total_quantity = sum(cart.values())
     return render(request, 'laptop_shop/show.html', {'product': product, 'total_quantity': total_quantity})
 
-
-def add_to_cart(request, product_id, increment=1):
-    cart = cache.get('cart', {})
+@ajax_login_required
+def add_to_cart(request, user_id, product_id, increment=1):
+    cart = cache.get(user_id, {'cart': {}})['cart']
     quantity = sum(cart.values())
 
     if not cart.get(product_id, 0):
@@ -86,12 +90,13 @@ def add_to_cart(request, product_id, increment=1):
 
     quantity += increment
 
-    cache.set('cart', cart)
+    cache.set(user_id, {'cart': cart})
 
     return JsonResponse({'total_quantity': quantity})
 
 def remove_from_cart(request, product_id):
-    cart = cache.get('cart', {})
+    user_id = cache.get('user_id')
+    cart = cache.get(user_id, {'cart': {}})['cart']
     total_quantity = sum(cart.values())
     quantity = 0
 
@@ -102,9 +107,6 @@ def remove_from_cart(request, product_id):
             del cart[product_id]
         total_quantity -= 1
 
-    cache.set('cart', cart)
+    cache.set(user_id, {'cart': cart})
 
     return JsonResponse({'total_quantity': total_quantity, 'quantity': quantity})
-
-
-

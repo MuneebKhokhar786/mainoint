@@ -25,7 +25,10 @@
 			type: "GET",
 			url: `/add-to-cart/${productId}/${quantity}`,
 			success: function (data) {
-				$(".cart-qty").html(data.total_quantity)
+				if(data.not_authenticated)
+          window.location.href = "/accounts/login";
+				else
+					$(".cart-qty").html(data.total_quantity)
 			},
 			error: function () {
 				alert("Error adding product to cart!");
