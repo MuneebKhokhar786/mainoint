@@ -1,13 +1,14 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
-from django.urls import reverse_lazy
-from django.views import generic
+from .decorators import ajax_login_required
 from django.template.loader import render_to_string
+from django.http import JsonResponse
+from django.views import generic
+import json
 from django.contrib.auth.forms import UserCreationForm
-from django.core.cache import cache
 from django.db.models import Count, OuterRef, Subquery
 from .models import Product, Collection, ProductImage
-from .decorators import ajax_login_required
+from django.core.cache import cache
+from django.urls import reverse_lazy
 
 def get_first_product_image():
     return ProductImage.objects.filter(
@@ -77,6 +78,12 @@ def update_cart(request):
     cart_html = render_to_string('laptop_shop/partial_cart_list.html',
                                 {'cart_items': cart_items, 'total_price': total_price, 'total_quantity': total_quantity})
     return JsonResponse({'cart_html': cart_html})
+
+def checkout(request):
+    cart_items = json.loads(request.POST.get('items'))
+    total_price = request.POST.get('total')
+    checkout_html = render_to_string('laptop_shop/checkout.html', {'cart_items': cart_items, 'total_price': total_price})
+    return JsonResponse({'checkout_html': checkout_html})
 
 def index(request, collection_name):
     products = Product.objects.prefetch_related('images').filter(collection__name__iexact=collection_name)

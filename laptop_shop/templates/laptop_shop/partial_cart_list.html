@@ -21,7 +21,7 @@
   </div>
   <div class="cart-btns">
     <a href="#">View Cart</a>
-    <a href="#"
+    <a href="#" id="checkout-btn" data-items="{{cart_items}}" data-total="{{total_price}}"
       >Checkout <i class="fa fa-arrow-circle-right"></i
     ></a>
   </div>
@@ -29,6 +29,22 @@
 
 <script>
   $(document).ready(function () {
+    const getCookie = (name) => {
+      let cookieValue=null;
+      if(document.cookie && document.cookie !== ""){
+      const cookies=document.cookie.split(";");
+      for(let i=0; i<cookies.length; i++){
+      const cookie=cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if(cookie.substring(0, name.length+1)===(name+"=")){
+      cookieValue=decodeURIComponent(cookie.substring(name.length+1));
+      break;
+      }
+      }
+      }
+      return cookieValue;
+      };
+
   $(".remove-item").on("click", function (e) {
     e.stopPropagation();
 		let productId = $(this).data("product-id");
@@ -54,6 +70,30 @@
 				alert("Error updating cart!");
 			},
 		});
+		});
 
-		});});
+    $("#checkout-btn").on('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $.ajax({
+        type: "POST",
+        url: `/checkout`,
+        data: {
+          items: $(this).data("items").replace(/'/g, '"'),
+          total: $(this).data("total"),
+        },
+				credentials:"same-origin",
+				headers:{
+				"X-Requested-With":"XMLHttpRequest",
+				"X-CSRFToken":getCookie("csrftoken"),
+				},
+        success: function (data) {
+          $("#main").html(data.checkout_html);
+        },
+        error: function () {
+          alert("Cart is Empty");
+        },
+      });
+    });
+  });
 </script>

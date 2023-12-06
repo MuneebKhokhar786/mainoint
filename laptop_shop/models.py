@@ -1,4 +1,5 @@
 from django.db import models
+import json
 from cloudinary.models import CloudinaryField
 from .mixins import CloudinaryImageMixin
 from django.urls import reverse
@@ -29,7 +30,16 @@ class Product(models.Model):
         Collection, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        fields = {
+            'name': self.name,
+            'description': self.description,
+            'price': str(self.price),
+            'slug': self.slug,
+        }
+        return json.dumps(fields)
+
+    def __repr__(self):
+        return self.__str__()
 
     def get_absolute_url(self):
         return reverse("index", kwargs={"slug": self.slug})
