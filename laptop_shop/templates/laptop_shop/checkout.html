@@ -36,30 +36,10 @@
 						<input type="radio" name="payment" id="payment-1">
 						<label for="payment-1">
 							<span></span>
-							Direct Bank Transfer
+							Cash on Delivery
 						</label>
 						<div class="caption">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-					</div>
-					<div class="input-radio">
-						<input type="radio" name="payment" id="payment-2">
-						<label for="payment-2">
-							<span></span>
-							Cheque Payment
-						</label>
-						<div class="caption">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-					</div>
-					<div class="input-radio">
-						<input type="radio" name="payment" id="payment-3">
-						<label for="payment-3">
-							<span></span>
-							Paypal System
-						</label>
-						<div class="caption">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<p>Cash on Delivery (COD) is available for eligible orders on Main Point. Customers choosing COD must pay the total order amount in cash to the delivery agent upon receiving the product. COD availability is subject to the seller's discretion and may not be offered for certain locations or high-value orders. We reserve the right to modify or withdraw COD as a payment option.</p>
 						</div>
 					</div>
 				</div>
@@ -70,7 +50,7 @@
 						I've read and accept the <a href="#">terms & conditions</a>
 					</label>
 				</div>
-				<a href="#" class="primary-btn order-submit">Place order</a>
+				<a href="" id="submit-order" class="primary-btn order-submit">Place order</a>
 			</div>
 			<!-- /Order Details -->
 		</div>
@@ -79,3 +59,15 @@
 	<!-- /container -->
 </div>
 <!-- /SECTION -->
+
+<script>
+	$(document).ready(function(){
+		$("#submit-order").click(function(e){
+			e.preventDefault();
+			if($('input[name="payment"]:checked').length == 0 || !$("#terms").is(":checked")){
+				alert("Please select payment method and accept terms and conditions");
+				return;
+			}
+		});
+	});
+</script>
