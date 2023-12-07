@@ -10,6 +10,7 @@ urlpatterns = [
     path('remove-from-cart/<int:product_id>', views.remove_from_cart, name='remove_from_cart'),
     path('update-cart', views.update_cart, name='update_cart'),
     path('checkout', views.checkout, name='checkout'),
+    path('create-order/<str:payment_method>/<str:total_price>', views.create_order, name='create_order'),
     path('accounts/signup', views.SignupPageView.as_view(), name="signup"),
     path('accounts/', include("django.contrib.auth.urls")),
 ]

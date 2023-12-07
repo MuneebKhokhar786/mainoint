@@ -6,7 +6,8 @@ from django.views import generic
 import json
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Count, OuterRef, Subquery
-from .models import Product, Collection, ProductImage
+from django.contrib.auth.models import User
+from .models import Product, Collection, ProductImage, Order, OrderItem
 from django.core.cache import cache
 from django.urls import reverse_lazy
 
@@ -97,7 +98,7 @@ def show(request, product_slug):
 
 @ajax_login_required
 def add_to_cart(request, user_id, product_id, increment=1):
-    cart = cache.get(user_id, {'cart': {}})['cart']
+    cart = get_user_cart(user_id)
     quantity = get_total_quantity(cart)
 
     if product_id not in cart:
@@ -126,3 +127,25 @@ def remove_from_cart(request, product_id):
     cache.set(user_id, {'cart': cart})
 
     return JsonResponse({'total_quantity': total_quantity, 'quantity': quantity})
+
+@ajax_login_required
+def create_order(request, user_id, payment_method, total_price):
+    cart = get_user_cart(user_id)
+
+    product_ids = list(cart.keys())
+    products = Product.objects.filter(id__in=product_ids)
+
+    user = User.objects.get(id=user_id)
+
+    order = Order.objects.create(user=user, total_price=float(total_price), payment_method=payment_method)
+    order_items = []
+    for product in products:
+        quantity = cart[product.id]
+        order_item = OrderItem(order=order, product=product, quantity=quantity)
+        order_items.append(order_item)
+    OrderItem.objects.bulk_create(order_items)
+
+    # Clear the cart from cache
+    cache.delete(user_id)
+
+    return JsonResponse({'message': 'Order created successfully!'})

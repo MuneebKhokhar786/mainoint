@@ -50,7 +50,7 @@
 						I've read and accept the <a href="#">terms & conditions</a>
 					</label>
 				</div>
-				<a href="" id="submit-order" class="primary-btn order-submit">Place order</a>
+				<a href="" id="submit-order" data-total={{total_price}}  class="primary-btn order-submit">Place order</a>
 			</div>
 			<!-- /Order Details -->
 		</div>
@@ -64,9 +64,28 @@
 	$(document).ready(function(){
 		$("#submit-order").click(function(e){
 			e.preventDefault();
+			let total = $(this).data("total");
+			let payment_method = $('input[name="payment"]:checked').next().text().trim();
 			if($('input[name="payment"]:checked').length == 0 || !$("#terms").is(":checked")){
 				alert("Please select payment method and accept terms and conditions");
 				return;
+			}
+			else{
+				$.ajax({
+					type: "GET",
+					url: `/create-order/${payment_method}/${total}`,
+					success: function (data) {
+						if(data.not_authenticated)
+							window.location.href = "/accounts/login";
+						else{
+							alert(data.message);
+							window.location.href = "/";
+						}
+					},
+					error: function () {
+						alert("Error adding product to cart!");
+					},
+				});
 			}
 		});
 	});
