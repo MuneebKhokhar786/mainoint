@@ -2,6 +2,9 @@
 <div class="section">
 	<!-- container -->
 	<div class="container">
+		<div class="spinner-overlay hidden">
+			<div class="spinner"></div>
+		</div>
 		<!-- row -->
 		<div class="row">
 			<!-- Order Details -->
@@ -64,6 +67,7 @@
 	$(document).ready(function(){
 		$("#submit-order").click(function(e){
 			e.preventDefault();
+			$(".spinner-overlay").removeClass("hidden");
 			let total = $(this).data("total");
 			let payment_method = $('input[name="payment"]:checked').next().text().trim();
 			if($('input[name="payment"]:checked').length == 0 || !$("#terms").is(":checked")){
@@ -75,6 +79,7 @@
 					type: "GET",
 					url: `/create-order/${payment_method}/${total}`,
 					success: function (data) {
+						$(".spinner-overlay").addClass("hidden");
 						if(data.not_authenticated)
 							window.location.href = "/accounts/login";
 						else{
