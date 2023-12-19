@@ -9,11 +9,6 @@
   margin: 16px 0;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
-.d-flex-center{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .card-body {
   display: flex;
   align-items: center;
@@ -144,4 +139,8 @@
     width: 100%;
     margin-left: 0;
   }
+}
+
+.pos-relative {
+  position: relative;
 }

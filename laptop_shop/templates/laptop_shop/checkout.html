@@ -75,11 +75,11 @@
 			}
 			else{
 				$(".spinner-overlay").removeClass("hidden");
+				$(this).attr("disabled");
 				$.ajax({
 					type: "GET",
 					url: `/create-order/${payment_method}/${total}`,
 					success: function (data) {
-						$(".spinner-overlay").addClass("hidden");
 						if(data.not_authenticated)
 							window.location.href = "/accounts/login";
 						else{
