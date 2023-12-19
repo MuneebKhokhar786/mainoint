@@ -67,7 +67,6 @@
 	$(document).ready(function(){
 		$("#submit-order").click(function(e){
 			e.preventDefault();
-			$(".spinner-overlay").removeClass("hidden");
 			let total = $(this).data("total");
 			let payment_method = $('input[name="payment"]:checked').next().text().trim();
 			if($('input[name="payment"]:checked').length == 0 || !$("#terms").is(":checked")){
@@ -75,6 +74,7 @@
 				return;
 			}
 			else{
+				$(".spinner-overlay").removeClass("hidden");
 				$.ajax({
 					type: "GET",
 					url: `/create-order/${payment_method}/${total}`,
