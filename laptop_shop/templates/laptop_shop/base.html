@@ -83,6 +83,8 @@
       rel="stylesheet"
       href="{% static 'laptop_shop/css/style.css'%}"
     />
+    {% block styles %}
+    {% endblock %}
     {% csrf_token %}
 
     <!--[if lt IE 9]>
@@ -293,7 +295,7 @@
                 <h3 class="footer-title">Information</h3>
                 <ul class="footer-links">
                   <li><a href="#">About Us</a></li>
-                  <li><a href="#">Contact Us</a></li>
+                  <li><a href={% url 'contact' %}>Contact Us</a></li>
                   <li><a href="#">Privacy Policy</a></li>
                   <li><a href="#">Orders and Returns</a></li>
                   <li><a href="#">Terms & Conditions</a></li>

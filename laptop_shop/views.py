@@ -90,6 +90,9 @@ def index(request, collection_name):
     products = Product.objects.prefetch_related('images').filter(collection__name__iexact=collection_name)
     return render(request, 'laptop_shop/index.html', {'products': products})
 
+def contact(request):
+    return render(request, 'laptop_shop/contact.html')
+
 def show(request, product_slug):
     product = get_object_or_404(Product, slug__iexact=product_slug)
     cart = get_user_cart(get_user_id())
