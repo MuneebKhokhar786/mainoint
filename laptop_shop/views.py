@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Count, OuterRef, Subquery
 from django.contrib.auth.models import User
 from .models import Product, Collection, ProductImage, Order, OrderItem
+from django.core.mail import send_mail
 from django.core.cache import cache
 from django.urls import reverse_lazy
 
@@ -92,6 +93,15 @@ def index(request, collection_name):
 
 def contact(request):
     return render(request, 'laptop_shop/contact.html')
+
+def send_email(request):
+    data = json.loads(request.body)
+    subject = data.get('name') + ' - ' + data.get('email')
+    message = data.get('message')
+    recipient_list = ['dev.muneeb.khokhar@gmail.com']
+
+    send_mail(subject, message, 'dev.muneeb.khokhar@gmail.com', recipient_list)
+    return JsonResponse({'message': 'Email sent successfully!'})
 
 def show(request, product_slug):
     product = get_object_or_404(Product, slug__iexact=product_slug)

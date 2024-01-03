@@ -35,23 +35,23 @@
         </div>
       </div>
       <div class="right-side">
-        <div class="topic-text">Send us a message</div>
-        <p>If you have any work from me or any types of quries related to my tutorial, you can send me message from here. It's my pleasure to help you.</p>
-        <form action="#">
-          <div class="input-box">
-            <input type="text" placeholder="Enter your name" />
-          </div>
-          <div class="input-box">
-            <input type="text" placeholder="Enter your email" />
-          </div>
-          <div class="input-box message-box">
-            <textarea placeholder="Enter your message"></textarea>
-          </div>
-          <div class="button">
-            <input type="button" value="Send Now" />
-          </div>
-        </form>
-      </div>
+				<div class="topic-text">Send us a message</div>
+				<p>If you have any work from me or any types of quries related to my tutorial, you can send me message from here. It's my pleasure to help you.</p>
+				<form id="email-form">
+					<div class="input-box">
+						<input type="text" name="name" placeholder="Enter your name" />
+					</div>
+					<div class="input-box">
+						<input type="text" name="email" placeholder="Enter your email" />
+					</div>
+					<div class="input-box message-box">
+						<textarea name="message" placeholder="Enter your message"></textarea>
+					</div>
+					<div class="button">
+						<input type="submit" value="Send Now" />
+					</div>
+				</form>
+			</div>
     </div>
   </div>
 </div>
@@ -90,4 +90,48 @@
 			<!-- /container -->
 		</div>
 		<!-- /NEWSLETTER -->
+
+
+<script>
+	const getCookie = (name) => {
+		let cookieValue=null;
+		if(document.cookie && document.cookie !== ""){
+		const cookies=document.cookie.split(";");
+		for(let i=0; i<cookies.length; i++){
+		const cookie=cookies[i].trim();
+		// Does this cookie string begin with the name we want?
+		if(cookie.substring(0, name.length+1)===(name+"=")){
+		cookieValue=decodeURIComponent(cookie.substring(name.length+1));
+		break;
+		}
+		}
+		}
+		return cookieValue;
+		};
+
+	document.getElementById('email-form').addEventListener('submit', function(e) {
+		e.preventDefault();
+		let formData = new FormData(e.target);
+		fetch('/send-email', {
+					method: 'POST',
+					headers: {
+						'X-CSRFToken': getCookie('csrftoken')
+					},
+					body: JSON.stringify({
+						name: formData.get('name'),
+						email: formData.get('email'),
+						message: formData.get('message')
+					})
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data.message);
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+				alert('Email sent successfully');
+				e.target.reset();
+			});
+		</script>
 {% endblock %}
