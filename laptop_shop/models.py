@@ -22,7 +22,7 @@ class Collection(CloudinaryImageMixin, models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.TextField()
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     slug = models.SlugField(null=True, unique=True)
