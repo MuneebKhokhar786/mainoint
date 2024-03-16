@@ -45,7 +45,7 @@ class Product(models.Model):
         return self.__str__()
 
     def get_absolute_url(self):
-        return reverse("index", kwargs={"slug": self.slug})
+        return reverse("show", kwargs={"product_slug": self.slug})
 
     def save(self, *args, **kwargs):
         if not self.slug:
