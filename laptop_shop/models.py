@@ -24,7 +24,9 @@ class Collection(CloudinaryImageMixin, models.Model):
 class Product(models.Model):
     name = models.TextField()
     description = models.TextField()
+    details = models.TextField(null=True, blank=True, default=None)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    price_compare_to = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     slug = models.SlugField(null=True, unique=True)
 
     collection = models.ForeignKey(
@@ -47,7 +49,12 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            if len(self.name) < 41:
+                slug_name = self.name
+            else:
+                slug_name = self.name[:40]
+
+            self.slug = slugify(slug_name)
         return super().save(*args, **kwargs)
 
 class ProductImage(CloudinaryImageMixin, models.Model):
