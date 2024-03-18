@@ -1,0 +1,30 @@
+{% extends "laptop_shop/base.html" %}
+{% block title %}Sign Up{% endblock title %}
+{% block content %}
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+
+      <div class="col-md-7">
+        <div class="section-title text-center">
+          <h1 class="title">registration</h1>
+        </div>
+        <!-- Billing Details -->
+        <div class="billing-details order-details">
+          <form method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form-group">{{ field }}</div>
+          {% endfor %}
+          <div class="col-12 text-right">
+            <button class="button-danger" type="submit">Sign Up</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

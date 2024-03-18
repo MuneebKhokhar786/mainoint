@@ -43,6 +43,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'laptop_shop.apps.LaptopShopConfig',
+    'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +54,8 @@ INSTALLED_APPS = [
     'cloudinary',
     "django_template_breakpoint",
 ]
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

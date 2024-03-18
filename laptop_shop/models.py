@@ -2,7 +2,7 @@ from django.db import models
 import json
 from cloudinary.models import CloudinaryField
 from .mixins import CloudinaryImageMixin
-from django.contrib.auth.models import User
+from accounts.models import CustomUser as User
 from django.urls import reverse
 from django.utils.text import slugify
 

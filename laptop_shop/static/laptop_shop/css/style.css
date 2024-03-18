@@ -56,7 +56,10 @@ Table OF Contents
 /*----------------------------*\
 	Typography
 \*----------------------------*/
-
+:root{
+  --primary-color: #D10024;
+  --d-primary-color: #c6101f;
+}
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
@@ -2094,11 +2097,11 @@ textarea.input {
 }
 
 /*=========================================================
-	12 -> SLICK STYLE
+12 -> SLICK STYLE
 ===========================================================*/
 
 /*----------------------------*\
-	Arrows
+Arrows
 \*----------------------------*/
 
 .slick-prev, .slick-next {
@@ -2143,7 +2146,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Dots
+Dots
 \*----------------------------*/
 
 .slick-dots li, .slick-dots li button, .slick-dots li button:before {
@@ -2168,7 +2171,39 @@ textarea.input {
 }
 
 /*=========================================================
-	13 -> RESPONSIVE
+  13 -> UTILITIES
+===========================================================*/
+
+.d-flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-danger {
+  color: #fff;
+  font-size: 18px;
+  outline: none;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-danger:hover {
+  background: var(--d-primary-color);
+}
+
+.justify-content-between {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
+}
+/*=========================================================
+13 -> RESPONSIVE
 ===========================================================*/
 
 @media only screen and (max-width: 1201px) {}
@@ -2225,12 +2260,3 @@ textarea.input {
   }
 }
 
-/*=========================================================
-	13 -> UTILITIES
-===========================================================*/
-
-.d-flex-center{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

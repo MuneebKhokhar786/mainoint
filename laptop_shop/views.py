@@ -2,15 +2,12 @@ from django.shortcuts import render, get_object_or_404
 from .decorators import ajax_login_required
 from django.template.loader import render_to_string
 from django.http import JsonResponse
-from django.views import generic
 import json
-from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Count, OuterRef, Subquery
-from django.contrib.auth.models import User
+from accounts.models import CustomUser as User
 from .models import Product, Collection, ProductImage, Order, OrderItem
 from django.core.mail import send_mail
 from django.core.cache import cache
-from django.urls import reverse_lazy
 
 def get_first_product_image():
     return ProductImage.objects.filter(
@@ -64,10 +61,6 @@ def home(request):
     return render(request, 'laptop_shop/home.html',
                   {'products': products_with_first_image, 'collections': collections, 'total_quantity': total_quantity})
 
-class SignupPageView(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
 
 def update_cart(request):
     cart = get_user_cart(get_user_id())
@@ -158,7 +151,6 @@ def create_order(request, user_id, payment_method, total_price):
         order_items.append(order_item)
     OrderItem.objects.bulk_create(order_items)
 
-    # Clear the cart from cache
     cache.delete(user_id)
 
     return JsonResponse({'message': 'Order created successfully!'})
