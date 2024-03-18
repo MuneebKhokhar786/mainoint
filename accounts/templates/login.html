@@ -1,0 +1,30 @@
+{% extends "laptop_shop/base.html" %}
+{% block title %}Log In{% endblock title %}
+{% block content %}
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+
+      <div class="col-md-7">
+        <div class="section-title text-center">
+          <h1 class="title">Log In</h1>
+        </div>
+        <div class="billing-details order-details">
+          <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-group">{{ field }}</div>
+            {% endfor %}
+            <div class="justify-content-between">
+              <a href={% url 'signup' %}>Create new account</a>
+              <button class="button-danger" type="submit">Log In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
