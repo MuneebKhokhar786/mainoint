@@ -13,8 +13,8 @@ def get_first_product_image():
     return ProductImage.objects.filter(
         product=OuterRef('pk')).order_by('id')[:1]
 
-def get_user_id():
-    return cache.get('user_id')
+def get_user_id(request):
+    return request.session.get('user_id', None)
 
 def get_user_cart(user_id):
     return cache.get(user_id, {'cart': {}})['cart']
@@ -55,7 +55,7 @@ def home(request):
         collection.products = collection.product_set.annotate(
             image=Subquery(get_first_product_image().values('image')))
 
-    cart = get_user_cart(get_user_id())
+    cart = get_user_cart(get_user_id(request))
     total_quantity = get_total_quantity(cart)
 
     return render(request, 'laptop_shop/home.html',
@@ -63,7 +63,7 @@ def home(request):
 
 
 def update_cart(request):
-    cart = get_user_cart(get_user_id())
+    cart = get_user_cart(get_user_id(request))
     product_ids = list(cart.keys())
 
     cart_products = Product.objects.filter(id__in=product_ids)
@@ -98,7 +98,7 @@ def send_email(request):
 
 def show(request, product_slug):
     product = get_object_or_404(Product, slug__iexact=product_slug)
-    cart = get_user_cart(get_user_id())
+    cart = get_user_cart(get_user_id(request))
     total_quantity = get_total_quantity(cart)
     return render(request, 'laptop_shop/show.html', {'product': product, 'total_quantity': total_quantity})
 
@@ -118,7 +118,7 @@ def add_to_cart(request, user_id, product_id, increment=1):
     return JsonResponse({'total_quantity': quantity})
 
 def remove_from_cart(request, product_id):
-    user_id = get_user_id()
+    user_id = get_user_id(request)
     cart = get_user_cart(user_id)
     total_quantity = get_total_quantity(cart)
     quantity = 0
