@@ -21,7 +21,7 @@
 						{% for item in cart_items %}
 							<div class="order-col">
 								<div>{{item.quantity}}x {{item.product.name}}</div>
-								<div>${{item.product.price}}</div>
+								<div>AED {{item.product.price}}</div>
 							</div>
 						{% endfor %}
 					</div>
@@ -31,7 +31,7 @@
 					</div>
 					<div class="order-col">
 						<div><strong>TOTAL</strong></div>
-						<div><strong class="order-total">${{total_price}}</strong></div>
+						<div><strong class="order-total">AED {{total_price}}</strong></div>
 					</div>
 				</div>
 				<div class="payment-method">

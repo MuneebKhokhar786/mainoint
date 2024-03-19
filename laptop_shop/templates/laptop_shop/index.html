@@ -178,7 +178,7 @@
 								<div class="product-body">
 									<p class="product-category">Category</p>
 									<h3 class="product-name"><a href="#">product name goes here</a></h3>
-									<h4 class="product-price">$980.00 <del class="product-old-price">${{product.price_compare_to}}</del></h4>
+									<h4 class="product-price">AED  980.00 <del class="product-old-price">AED {{product.price_compare_to}}</del></h4>
 								</div>
 							</div>
 
@@ -189,7 +189,7 @@
 								<div class="product-body">
 									<p class="product-category">Category</p>
 									<h3 class="product-name"><a href="#">product name goes here</a></h3>
-									<h4 class="product-price">$980.00 <del class="product-old-price">${{product.price_compare_to}}</del></h4>
+									<h4 class="product-price">AED  980.00 <del class="product-old-price">AED {{product.price_compare_to}}</del></h4>
 								</div>
 							</div>
 
@@ -200,7 +200,7 @@
 								<div class="product-body">
 									<p class="product-category">Category</p>
 									<h3 class="product-name"><a href="#">product name goes here</a></h3>
-									<h4 class="product-price">$980.00 <del class="product-old-price">${{product.price_compare_to}}</del></h4>
+									<h4 class="product-price">AED  980.00 <del class="product-old-price">AED {{product.price_compare_to}}</del></h4>
 								</div>
 							</div>
 						</div>
@@ -252,7 +252,7 @@
                     <div class="product-body">
                       <p class="product-category">{{ product.collection.name }}</p>
                       <h3 class="product-name"><a href="{% url 'show' product_slug=product.slug %}">{{ product.name }}</a></h3>
-                      <h4 class="product-price">${{ product.price }} <del class="product-old-price">${{product.price_compare_to}}</del></h4>
+                      <h4 class="product-price">AED {{ product.price }} <del class="product-old-price">AED {{product.price_compare_to}}</del></h4>
                       <div class="product-rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>

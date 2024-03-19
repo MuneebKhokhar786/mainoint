@@ -11,7 +11,7 @@
       <a href="{% url 'show' product_slug=item.product.slug %}">{{item.product.name}}</a>
     </h3>
     <h4 class="product-price">
-      <span class="qty" id="qty-{{item.product.id}}">{{item.quantity}}x</span>${{item.product.price}}
+      <span class="qty" id="qty-{{item.product.id}}">{{item.quantity}}x</span>AED {{item.product.price}}
     </h4>
   </div>
   <button class="delete remove-item" data-product-id={{item.product.id}} data-price={{item.product.price}}>
