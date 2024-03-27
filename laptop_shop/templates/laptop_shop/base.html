@@ -367,5 +367,29 @@
     <script src="{% static 'laptop_shop/js/slick.min.js'%}"></script>
     <script src="{% static 'laptop_shop/js/jquery.zoom.min.js'%}"></script>
     <script src="{% static 'laptop_shop/js/main.js'%}"></script>
+    <script>
+      (function (w, d, s, u) {
+      w.gbwawc = {
+      url: u,
+      options: {
+              waId: "+971545356229",
+              siteName: "Main Point",
+              siteTag: "Online",
+              siteLogo: "https://assets.gallabox.com/gb-home/wa-chat-widget/bot+avatars/5.png",
+              widgetPosition: "RIGHT",
+              triggerMessage: "Chat with us",
+              welcomeMessage: "Welcome to Main Point, Your gateway to innovation",
+              brandColor: "#25D366",
+              messageText: "",
+              replyOptions: ['laptops','Mobiles'],
+          },
+      };
+      var h = d.getElementsByTagName(s)[0],
+      j = d.createElement(s);
+      j.async = true;
+      j.src = u + "/whatsapp-widget.min.js?_=" + Math.random();
+      h.parentNode.insertBefore(j, h);
+      })(window, document, "script", "https://waw.gallabox.com");
+  </script>
   </body>
 </html>
