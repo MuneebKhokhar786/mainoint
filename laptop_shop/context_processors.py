@@ -2,6 +2,9 @@ from .models import Collection, Product
 from django.core.cache import cache
 
 def base_variables(request):
+    if getattr(request, 'skip_base_variables', False):
+        return {}
+    
     try:
         collections = Collection.objects.values('name').all()
         products = Product.objects.values('name', 'slug').all()

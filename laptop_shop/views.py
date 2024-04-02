@@ -81,6 +81,7 @@ def index(request, collection_name):
     return render(request, 'laptop_shop/index.html', {'products': products})
 
 def filter_products(request, collection_name):
+    request.skip_base_variables = True
     if collection_name == '0':
         products = Product.objects.values('name', 'slug')
     else:
