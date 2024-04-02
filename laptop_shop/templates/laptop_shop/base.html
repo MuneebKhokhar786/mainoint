@@ -149,14 +149,14 @@
             <!-- SEARCH BAR -->
             <div class="col-md-6">
               <div class="header-search">
-                <form>
+                <form id="product-search-form">
                   <select class="input-select" id="categories-search">
                     <option value="0">All Categories</option>
                     {% for category in categories %}
                       <option value="{{category.name}}">{{category.name}}</option>
                     {% endfor %}
                   </select>
-                  <select id="products-search" class="input" required>
+                  <select id="products-search" class="input" required name="product_slug">
                     {% block product_list %}
                       {% include './partial_product_options.html' %}
                     {% endblock %}
@@ -258,10 +258,6 @@
                   <i class="fa fa-envelope"></i> Subscribe
                 </button>
               </form>
-              <div>
-                <i>
-                </i>e
-              </div>
               <ul class="newsletter-follow">
                 <li>
                   <a href="https://www.facebook.com/mainpointelectronicsofficial"><i class="fa fa-facebook"></i></a>

@@ -49,6 +49,13 @@
 			},
 		});
 	});
+
+	$("#product-search-form").on("submit", function(e){
+		e.preventDefault();
+		const product_slug = new FormData(this).get('product_slug');
+    window.location.href = '/products/' + product_slug
+	});
+	
 	$("#cart-container").on("show.bs.dropdown", function () {
 		$("#cart-spinner").removeClass("hidden");
 		$(".de-cart").addClass("hidden");
