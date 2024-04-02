@@ -55,11 +55,8 @@ def home(request):
         collection.products = collection.product_set.annotate(
             image=Subquery(get_first_product_image().values('image')))
 
-    cart = get_user_cart(get_user_id(request))
-    total_quantity = get_total_quantity(cart)
-
     return render(request, 'laptop_shop/home.html',
-                  {'products': products_with_first_image, 'collections': collections, 'total_quantity': total_quantity})
+                  {'products': products_with_first_image, 'collections': collections})
 
 
 def update_cart(request):
@@ -77,12 +74,18 @@ def update_cart(request):
 def checkout(request):
     cart_items = json.loads(request.POST.get('items'))
     total_price = request.POST.get('total')
-    checkout_html = render_to_string('laptop_shop/checkout.html', {'cart_items': cart_items, 'total_price': total_price})
-    return JsonResponse({'checkout_html': checkout_html})
+    return render(request, 'laptop_shop/checkout.html', {'cart_items': cart_items, 'total_price': total_price})
 
 def index(request, collection_name):
     products = Product.objects.prefetch_related('images').filter(collection__name__iexact=collection_name)
     return render(request, 'laptop_shop/index.html', {'products': products})
+
+def filter_products(request, collection_name):
+    if collection_name == '0':
+        products = Product.objects.values('name', 'slug')
+    else:
+        products = Product.objects.filter(collection__name__iexact=collection_name).values('name', 'slug')
+    return render(request, 'laptop_shop/partial_product_options.html', {'search_products': list(products)})
 
 def contact(request):
     return render(request, 'laptop_shop/contact.html')
@@ -98,9 +101,7 @@ def send_email(request):
 
 def show(request, product_slug):
     product = get_object_or_404(Product, slug__iexact=product_slug)
-    cart = get_user_cart(get_user_id(request))
-    total_quantity = get_total_quantity(cart)
-    return render(request, 'laptop_shop/show.html', {'product': product, 'total_quantity': total_quantity})
+    return render(request, 'laptop_shop/show.html', {'product': product})
 
 @ajax_login_required
 def add_to_cart(request, user_id, product_id, increment=1):

@@ -36,6 +36,19 @@
 		});
 	});
 
+	$("#categories-search").on("change", function(){
+    let collection_name = $(this).val();
+		$.ajax({
+			type: "GET",
+			url: `/${collection_name}/filtered_products`,
+			success: function (data) {
+				$("#products-search").html(data)
+			},
+			error: function () {
+				alert("Error Fetching Product list!");
+			},
+		});
+	});
 	$("#cart-container").on("show.bs.dropdown", function () {
 		$("#cart-spinner").removeClass("hidden");
 		$(".de-cart").addClass("hidden");

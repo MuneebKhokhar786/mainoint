@@ -1,0 +1,4 @@
+<option value="">Search here</option>
+{% for product in search_products %}
+  <option value="{{product.slug}}">{{product.name}}</option>
+{% endfor %}
