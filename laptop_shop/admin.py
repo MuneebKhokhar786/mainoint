@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product, ProductImage, ProductVideo, Collection, Order, OrderItem
+from .models import Product, ProductImage, ProductVideo, Collection, Order, OrderItem, Vendor, Branch, Manufacturer
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
@@ -12,7 +12,7 @@ class ProductVideoInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['name', 'description', 'details', 'price', 'price_compare_to', 'collection']}),
+        (None, {'fields': ['name', 'description', 'details', 'price', 'price_compare_to', 'collection', 'manufacturer']}),
     ]
     inlines = [ProductImageInline, ProductVideoInline]
     list_display = ('name', 'price', 'collection')
@@ -45,3 +45,6 @@ class OrderAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Collection)
+admin.site.register(Vendor)
+admin.site.register(Branch)
+admin.site.register(Manufacturer)

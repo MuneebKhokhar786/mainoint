@@ -21,6 +21,9 @@ class Collection(CloudinaryImageMixin, models.Model):
         return self.name
 
 
+class Manufacturer(models.Model):
+    name = models.CharField(max_length=255)
+
 class Product(models.Model):
     name = models.TextField()
     description = models.TextField()
@@ -31,6 +34,8 @@ class Product(models.Model):
 
     collection = models.ForeignKey(
         Collection, on_delete=models.SET_NULL, null=True, blank=True)
+    manufacturer = models.ForeignKey(
+        Manufacturer, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         fields = {
@@ -91,3 +96,21 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"Order #{self.order.pk} - {self.product.name} - Quantity: {self.quantity}"
+
+class Vendor(models.Model):
+    name = models.CharField(max_length=255)
+    contact_person = models.CharField(max_length=255, null=True, blank=True)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField(null=True, blank=True)
+    address = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+class Branch(models.Model):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    address = models.TextField()
+
+    def __str__(self):
+        return self.name | self.address
+
