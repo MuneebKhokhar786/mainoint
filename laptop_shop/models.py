@@ -38,14 +38,12 @@ class Product(TimestampMixin):
         Manufacturer, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        # fields = {
-        #     'name': self.name,
-        #     'description': self.description,
-        #     'price': str(self.price),
-        #     'slug': self.slug,
-        # }
-        # return json.dumps(fields)
-        return self.name
+        fields = {
+            'name': self.name,
+            'price': str(self.price),
+            'slug': self.slug,
+        }
+        return json.dumps(fields)
 
     def __repr__(self):
         return self.__str__()
