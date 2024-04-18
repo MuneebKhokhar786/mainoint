@@ -24,3 +24,10 @@ class CloudinaryImageMixin(models.Model):
     def save(self, *args, **kwargs):
         self.delete_old_cloudinary_image()
         super().save(*args, **kwargs)
+
+class TimestampMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
