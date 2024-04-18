@@ -38,13 +38,14 @@ class Product(TimestampMixin):
         Manufacturer, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        fields = {
-            'name': self.name,
-            'description': self.description,
-            'price': str(self.price),
-            'slug': self.slug,
-        }
-        return json.dumps(fields)
+        # fields = {
+        #     'name': self.name,
+        #     'description': self.description,
+        #     'price': str(self.price),
+        #     'slug': self.slug,
+        # }
+        # return json.dumps(fields)
+        return self.name
 
     def __repr__(self):
         return self.__str__()
@@ -112,5 +113,5 @@ class Branch(TimestampMixin):
     address = models.TextField()
 
     def __str__(self):
-        return self.name | self.address
+        return self.name or self.address
 
