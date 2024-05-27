@@ -44,6 +44,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'laptop_shop.apps.LaptopShopConfig',
     'accounts.apps.AccountsConfig',
+    'inventory.apps.InventoryConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

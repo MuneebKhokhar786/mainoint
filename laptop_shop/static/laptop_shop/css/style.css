@@ -1938,8 +1938,10 @@ textarea.input {
 }
 
 .order-summary .order-col .order-total {
+  display: block;
   font-size: 24px;
   color: #D10024;
+  width: max-content;
 }
 
 .order-details .payment-method {

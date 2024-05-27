@@ -1,13 +1,13 @@
 from django.db import models
 import json
 from cloudinary.models import CloudinaryField
-from .mixins import CloudinaryImageMixin
+from .mixins import CloudinaryImageMixin, TimestampMixin
 from accounts.models import CustomUser as User
 from django.urls import reverse
 from django.utils.text import slugify
 
 
-class Collection(CloudinaryImageMixin, models.Model):
+class Collection(CloudinaryImageMixin, TimestampMixin):
     name = models.CharField(max_length=100)
     description = models.TextField()
     image = CloudinaryField('image', folder='main_point/collections/images/',
@@ -21,7 +21,10 @@ class Collection(CloudinaryImageMixin, models.Model):
         return self.name
 
 
-class Product(models.Model):
+class Manufacturer(TimestampMixin):
+    name = models.CharField(max_length=255)
+
+class Product(TimestampMixin):
     name = models.TextField()
     description = models.TextField()
     details = models.TextField(null=True, blank=True, default=None)
@@ -31,11 +34,12 @@ class Product(models.Model):
 
     collection = models.ForeignKey(
         Collection, on_delete=models.SET_NULL, null=True, blank=True)
+    manufacturer = models.ForeignKey(
+        Manufacturer, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         fields = {
             'name': self.name,
-            'description': self.description,
             'price': str(self.price),
             'slug': self.slug,
         }
@@ -57,7 +61,7 @@ class Product(models.Model):
             self.slug = slugify(slug_name)
         return super().save(*args, **kwargs)
 
-class ProductImage(CloudinaryImageMixin, models.Model):
+class ProductImage(CloudinaryImageMixin, TimestampMixin):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = CloudinaryField('image', folder='main_point/products/images/',
                             transformation={
@@ -69,14 +73,14 @@ class ProductImage(CloudinaryImageMixin, models.Model):
     def __str__(self):
         return self.product.name
 
-class ProductVideo(models.Model):
+class ProductVideo(TimestampMixin):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='videos')
     video = CloudinaryField('video', folder='main_point/products/videos/', resource_type='video',blank=True, null=True)
 
     def __str__(self):
         return self.product.name
 
-class Order(models.Model):
+class Order(TimestampMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_method = models.CharField(max_length=50)
@@ -84,10 +88,28 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.pk} - {self.user.username}"
 
-class OrderItem(models.Model):
+class OrderItem(TimestampMixin):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
         return f"Order #{self.order.pk} - {self.product.name} - Quantity: {self.quantity}"
+
+class Vendor(TimestampMixin):
+    name = models.CharField(max_length=255)
+    contact_person = models.CharField(max_length=255, null=True, blank=True)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField(null=True, blank=True)
+    address = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+class Branch(TimestampMixin):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    address = models.TextField()
+
+    def __str__(self):
+        return self.name or self.address
+
