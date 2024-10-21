@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.utils.translation import gettext_lazy as _
 from .models import CustomUser
 
@@ -23,6 +23,18 @@ class CustomUserCreationForm(UserCreationForm):
 
     def set_field_attributes(self, field_name, placeholder):
         self.fields[field_name].widget.attrs.update({'class': 'input', 'placeholder': placeholder})
+
+class AdminUserCreationForm(UserCreationForm):
+
+    class Meta(UserCreationForm.Meta):
+        model = CustomUser
+        fields = UserCreationForm.Meta.fields + ('username', 'is_staff')
+
+class AdminUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', )
 
 class CustomAuthenticationForm(AuthenticationForm):
 
