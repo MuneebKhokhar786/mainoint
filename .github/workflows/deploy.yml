@@ -37,7 +37,8 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+        echo "${{ secrets.PARAPHRASE }}" > /tmp/pp
+        DISPLAY=1 SSH_ASKPASS=/tmp/pp ssh-add ~/.ssh/id_rsa < /dev/null
 
     - name: Debug SSH Connection
       run: |
