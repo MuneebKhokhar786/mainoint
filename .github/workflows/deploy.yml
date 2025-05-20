@@ -47,6 +47,12 @@ jobs:
         chmod +x $SSH_ASKPASS_SCRIPT
         DISPLAY=:0 SSH_ASKPASS=$SSH_ASKPASS_SCRIPT setsid ssh-add ~/.ssh/id_rsa
 
+    - name: Debug SSH Connection
+      run: |
+        ls -la ~/.ssh
+        cat ~/.ssh/id_rsa
+        ssh -vT ubuntu@${{ secrets.EC2_HOST }}
+
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
