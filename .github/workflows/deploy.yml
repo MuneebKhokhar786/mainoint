@@ -41,10 +41,11 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} \
-          "cd /path/to/your/project && \
+          "cd /home/ubuntu/sourceCode/mainoint && \
           git fetch origin && \
-          git checkout main && \
-          git pull origin main && \
+          git checkout master && \
+          git pull origin master && \
+          source venv/bin/activate && \
           pip install -r requirements.txt && \
           python manage.py migrate && \
           sudo systemctl restart gunicorn && \
