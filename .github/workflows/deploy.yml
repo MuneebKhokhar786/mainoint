@@ -42,7 +42,7 @@ jobs:
         eval "$(ssh-agent -s)"
 
         SSH_PASSPHRASE_FILE=$(mktemp)
-        echo "${{ secrets.SSH_KEY_PASSPHRASE }}" > $SSH_PASSPHRASE_FILE
+        echo "${{ secrets.PARAPHRASE }}" > $SSH_PASSPHRASE_FILE
 
         # Fake DISPLAY and SSH_ASKPASS to bypass interactive prompt
         ASKPASS_SCRIPT=$(mktemp)
