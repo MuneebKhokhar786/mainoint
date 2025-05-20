@@ -38,14 +38,22 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hosts
 
         eval "$(ssh-agent -s)"
-        SSH_ASKPASS_SCRIPT=$(mktemp)
-        echo "#!/bin/sh" > $SSH_ASKPASS_SCRIPT
-        echo "echo '${{ secrets.PARAPHRASE }}'" >> $SSH_ASKPASS_SCRIPT
-        chmod +x $SSH_ASKPASS_SCRIPT
-        DISPLAY=:0 SSH_ASKPASS=$SSH_ASKPASS_SCRIPT setsid ssh-add ~/.ssh/id_rsa
+
+        SSH_PASSPHRASE_FILE=$(mktemp)
+        echo "${{ secrets.SSH_KEY_PASSPHRASE }}" > $SSH_PASSPHRASE_FILE
+
+        # Fake DISPLAY and SSH_ASKPASS to bypass interactive prompt
+        ASKPASS_SCRIPT=$(mktemp)
+        echo "#!/bin/sh" > $ASKPASS_SCRIPT
+        echo "cat $SSH_PASSPHRASE_FILE" >> $ASKPASS_SCRIPT
+        chmod +x $ASKPASS_SCRIPT
+
+        DISPLAY=:0 SSH_ASKPASS=$ASKPASS_SCRIPT setsid ssh-add ~/.ssh/id_rsa
+
+        # Optional: confirm key is added
+        ssh-add -l
 
     - name: Debug SSH Connection
       run: |
