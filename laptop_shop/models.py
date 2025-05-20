@@ -36,6 +36,13 @@ class Product(TimestampMixin):
         Collection, on_delete=models.SET_NULL, null=True, blank=True)
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    @property
+    def discount_percentage(self):
+        if self.price_compare_to > self.price:
+            discount = ((self.price_compare_to - self.price) / self.price_compare_to) * 100
+            return int(round(discount))
+        return None
 
     def __str__(self):
         fields = {
