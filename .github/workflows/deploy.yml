@@ -38,7 +38,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
         public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-        passphrase: ''
+        passphrase: ${{ secrets.PARAPHRASE }}
         ssh_options: '-o ConnectTimeout=30'
     
     - name: Deploy to EC2
