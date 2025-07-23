@@ -71,3 +71,7 @@ args = "cd modern-stack/backend && python3.12 -m pip install --force-reinstall -
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd modern-stack/frontend && npm install && npm run dev"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
