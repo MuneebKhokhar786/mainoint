@@ -9,7 +9,7 @@ packages = ["cacert", "pgadmin4"]
 run = ["sh", "-c", "python3 manage.py runserver 0.0.0.0:3000"]
 
 [workflows]
-runButton = "Development"
+runButton = "Start Modern Stack"
 
 [[workflows.workflow]]
 name = "Start Backend"
@@ -58,3 +58,16 @@ args = "npm run db:generate"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run dev"
+
+[[workflows.workflow]]
+name = "Start Modern Stack"
+author = 45425848
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd modern-stack/backend && pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd modern-stack/frontend && npm install && npm run dev"
