@@ -7,3 +7,54 @@ packages = ["cacert", "pgadmin4"]
 
 [deployment]
 run = ["sh", "-c", "python3 manage.py runserver 0.0.0.0:3000"]
+
+[workflows]
+runButton = "Development"
+
+[[workflows.workflow]]
+name = "Start Backend"
+author = 45425848
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+[[workflows.workflow]]
+name = "Start Frontend"
+author = 45425848
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm run dev"
+
+[[workflows.workflow]]
+name = "Install Dependencies"
+author = 45425848
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && pip install fastapi uvicorn sqlalchemy psycopg2-binary redis python-multipart"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm install"
+
+[[workflows.workflow]]
+name = "Development"
+author = 45425848
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run db:generate"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"

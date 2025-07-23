@@ -1,0 +1,194 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  username    String   @unique
+  email       String   @unique
+  password    String
+  firstName   String?
+  lastName    String?
+  address     String?
+  city        String?
+  country     String?
+  zipCode     String?
+  phoneNumber String?
+  isStaff     Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orders Order[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  image       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+
+  @@map("categories")
+}
+
+model Manufacturer {
+  id        String    @id @default(cuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+
+  @@map("manufacturers")
+}
+
+model Product {
+  id             String         @id @default(cuid())
+  name           String
+  description    String?
+  details        String?
+  price          Decimal
+  priceCompareTo Decimal?
+  slug           String         @unique
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  categoryId     String?
+  manufacturerId String?
+  
+  category     Category?      @relation(fields: [categoryId], references: [id])
+  manufacturer Manufacturer?  @relation(fields: [manufacturerId], references: [id])
+  images       ProductImage[]
+  videos       ProductVideo[]
+  orderItems   OrderItem[]
+  inventory    GlobalInventory[]
+
+  @@map("products")
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  isPrimary Boolean  @default(false)
+  productId String
+  createdAt DateTime @default(now())
+  
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_images")
+}
+
+model ProductVideo {
+  id        String   @id @default(cuid())
+  url       String
+  title     String?
+  productId String
+  createdAt DateTime @default(now())
+  
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_videos")
+}
+
+model Vendor {
+  id            String   @id @default(cuid())
+  name          String
+  contactPerson String?
+  phoneNumber   String
+  email         String?
+  address       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  inventory GlobalInventory[]
+
+  @@map("vendors")
+}
+
+model Branch {
+  id        String   @id @default(cuid())
+  name      String?
+  address   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  localInventory LocalInventory[]
+
+  @@map("branches")
+}
+
+model GlobalInventory {
+  id        String   @id @default(cuid())
+  quantity  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  productId String?
+  vendorId  String?
+
+  product Product? @relation(fields: [productId], references: [id])
+  vendor  Vendor?  @relation(fields: [vendorId], references: [id])
+  locals  LocalInventory[]
+
+  @@map("global_inventory")
+}
+
+model LocalInventory {
+  id                String           @id @default(cuid())
+  quantity          Int              @default(0)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  branchId          String?
+  globalInventoryId String?
+
+  branch          Branch?          @relation(fields: [branchId], references: [id])
+  globalInventory GlobalInventory? @relation(fields: [globalInventoryId], references: [id])
+
+  @@map("local_inventory")
+}
+
+model Order {
+  id        String      @id @default(cuid())
+  total     Decimal
+  status    OrderStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  userId    String
+
+  user  User        @relation(fields: [userId], references: [id])
+  items OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  quantity  Int
+  price     Decimal
+  createdAt DateTime @default(now())
+  orderId   String
+  productId String
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
