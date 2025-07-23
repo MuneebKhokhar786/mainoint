@@ -66,11 +66,11 @@ mode = "parallel"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd modern-stack/backend && python3.12 -m pip install --force-reinstall -r requirements.txt && python3.12 -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+args = "cd modern-stack/backend && pip install -r requirements.txt --break-system-packages && python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd modern-stack/frontend && npm install && npm run dev"
+args = "cd modern-stack/frontend && npm install && npm run dev -- --port 3000"
 
 [[ports]]
 localPort = 3000
