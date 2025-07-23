@@ -23,7 +23,7 @@ def get_total_quantity(cart):
     return sum(cart.values())
 
 def get_products_with_first_image():
-    products = Product.objects.all()
+    products = Product.objects.select_related('collection', 'manufacturer').prefetch_related('images')
     first_product_image = get_first_product_image()
     return products.annotate(image=Subquery(first_product_image.values('image')))
 
@@ -48,8 +48,9 @@ def get_cart_items(product_ids, cart_products):
 def home(request):
     products_with_first_image = get_products_with_first_image()
 
-    collections = Collection.objects.annotate(product_count=Count(
-        'product')).filter(product_count__gt=0).order_by('id')
+    collections = Collection.objects.prefetch_related(
+        'product_set__images'
+    ).annotate(product_count=Count('product')).filter(product_count__gt=0).order_by('id')
 
     for collection in collections:
         collection.products = collection.product_set.annotate(
@@ -60,15 +61,24 @@ def home(request):
 
 
 def update_cart(request):
-    cart = get_user_cart(get_user_id(request))
-    product_ids = list(cart.keys())
+    user_id = get_user_id(request)
+    cart = get_user_cart(user_id)
+    product_ids = [int(pid) for pid in cart.keys()]
 
-    cart_products = Product.objects.filter(id__in=product_ids)
+    # Use select_related to avoid N+1 queries
+    cart_products = Product.objects.select_related('collection', 'manufacturer').prefetch_related('images').filter(id__in=product_ids)
 
     cart_items, total_price, total_quantity = get_cart_items(cart, cart_products)
 
-    cart_html = render_to_string('laptop_shop/partial_cart_list.html',
-                                {'cart_items': cart_items, 'total_price': total_price, 'total_quantity': total_quantity})
+    # Cache the cart HTML for better performance
+    cache_key = f"cart_html_{user_id}_{hash(str(sorted(cart.items())))}"
+    cart_html = cache.get(cache_key)
+    
+    if not cart_html:
+        cart_html = render_to_string('laptop_shop/partial_cart_list.html',
+                                    {'cart_items': cart_items, 'total_price': total_price, 'total_quantity': total_quantity})
+        cache.set(cache_key, cart_html, 300)  # Cache for 5 minutes
+    
     return JsonResponse({'cart_html': cart_html})
 
 def checkout(request):
@@ -77,7 +87,7 @@ def checkout(request):
     return render(request, 'laptop_shop/checkout.html', {'cart_items': cart_items, 'total_price': total_price})
 
 def index(request, collection_name):
-    products = Product.objects.prefetch_related('images').filter(collection__name__iexact=collection_name)
+    products = Product.objects.select_related('collection', 'manufacturer').prefetch_related('images').filter(collection__name__iexact=collection_name)
     return render(request, 'laptop_shop/index.html', {'products': products})
 
 def filter_products(request, collection_name):

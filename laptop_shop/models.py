@@ -8,7 +8,7 @@ from django.utils.text import slugify
 
 
 class Collection(CloudinaryImageMixin, TimestampMixin):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, db_index=True)
     description = models.TextField()
     image = CloudinaryField('image', folder='main_point/collections/images/',
                             transformation={
@@ -25,17 +25,17 @@ class Manufacturer(TimestampMixin):
     name = models.CharField(max_length=255)
 
 class Product(TimestampMixin):
-    name = models.TextField()
+    name = models.TextField(db_index=True)
     description = models.TextField()
     details = models.TextField(null=True, blank=True, default=None)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, db_index=True)
     price_compare_to = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    slug = models.SlugField(null=True, unique=True)
+    slug = models.SlugField(null=True, unique=True, db_index=True)
 
     collection = models.ForeignKey(
-        Collection, on_delete=models.SET_NULL, null=True, blank=True)
+        Collection, on_delete=models.SET_NULL, null=True, blank=True, db_index=True)
     manufacturer = models.ForeignKey(
-        Manufacturer, on_delete=models.SET_NULL, null=True, blank=True)
+        Manufacturer, on_delete=models.SET_NULL, null=True, blank=True, db_index=True)
     
     @property
     def discount_percentage(self):
