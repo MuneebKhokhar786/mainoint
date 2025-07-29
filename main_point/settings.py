@@ -103,13 +103,6 @@ DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
 
-# Add connection pooling for better database performance
-DATABASES['default']['CONN_MAX_AGE'] = 600
-DATABASES['default']['OPTIONS'] = {
-    'MAX_CONNS': 20,
-    'MIN_CONNS': 5,
-}
-
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
