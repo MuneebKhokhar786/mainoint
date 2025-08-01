@@ -42,7 +42,6 @@ jobs:
     - name: Debug SSH Connection
       run: |
         ls -la ~/.ssh
-        cat ~/.ssh/id_rsa
         ssh -vT ubuntu@${{ secrets.EC2_HOST }}
 
     - name: Deploy to EC2
