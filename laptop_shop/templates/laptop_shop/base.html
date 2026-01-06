@@ -114,7 +114,8 @@
           <ul class="header-links pull-right">
             {% if user.is_authenticated %}
             <li>
-              <a href={% url 'logout' %}><i class="fa fa-user-o"></i> Logout </a>
+              <!-- This is GET logout request, it is recommended to do a POST request using form and csrf -->
+              <a href="{% url 'account_logout' %}"><i class="fa fa-user-o"></i> Logout </a>
             </li>
             {% else %}
               <li>
