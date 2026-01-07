@@ -1,4 +1,6 @@
 {% extends "laptop_shop/base.html" %}
+{% load socialaccount %}
+
 {% block title %}Log In{% endblock title %}
 {% block content %}
 <div class="section">
@@ -19,6 +21,9 @@
             {% endfor %}
             <div class="justify-content-between">
               <a href={% url 'signup' %}>Create new account</a>
+              <a href="{% provider_login_url 'google' %}">
+                  Sign in with Google
+              </a>
               <button class="button-danger" type="submit">Log In</button>
             </div>
           </form>
