@@ -1,13 +1,13 @@
 from django.db import models
 import json
 from cloudinary.models import CloudinaryField
-from .mixins import CloudinaryImageMixin, TimestampMixin
+from .mixins import TimestampMixin
 from accounts.models import CustomUser as User
 from django.urls import reverse
 from django.utils.text import slugify
 
 
-class Collection(CloudinaryImageMixin, TimestampMixin):
+class Collection(TimestampMixin):
     name = models.CharField(max_length=100, db_index=True)
     description = models.TextField()
     image = CloudinaryField('image', folder='main_point/collections/images/',
@@ -68,7 +68,7 @@ class Product(TimestampMixin):
             self.slug = slugify(slug_name)
         return super().save(*args, **kwargs)
 
-class ProductImage(CloudinaryImageMixin, TimestampMixin):
+class ProductImage(TimestampMixin):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = CloudinaryField('image', folder='main_point/products/images/',
                             transformation={
