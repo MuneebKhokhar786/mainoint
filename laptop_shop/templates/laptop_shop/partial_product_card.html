@@ -1,57 +1,51 @@
 {% load product_tags %}
 <div class="product">
     <div class="product-img">
-        <img
-        loading="lazy"
-        src="{{ product|get_product_image }}"
-        alt="{{ product.name }} image"
-        referrerpolicy="no-referrer"
-        />
+        <img loading="lazy" src="{{ product|get_product_image }}" alt="{{ product.name }} image"
+            referrerpolicy="no-referrer" />
         <div class="product-label">
-        {% if product.discount_percentage %}
+            {% if product.discount_percentage %}
             <span class="sale">-{{ product.discount_percentage }}%</span>
-        {% endif %}
-        <span class="new">NEW</span>
+            {% endif %}
+            <span class="new">NEW</span>
         </div>
     </div>
     <div class="product-body">
         <p class="product-category">
-        {{ product.collection.name }}
+            {{ product.collection.name }}
         </p>
         <h3 class="product-name">
-        <a href="{% url 'show' product_slug=product.slug %}"
-            >{{ product.name }}</a
-        >
+            <a href="{% url 'show' product_slug=product.slug %}">{{ product.name }}</a>
         </h3>
         <h4 class="product-price">
-        AED {{ product.price }}
-        <del class="product-old-price">AED {{product.price_compare_to}}</del>
+            AED {{ product.price }}
+            <del class="product-old-price">AED {{product.price_compare_to}}</del>
         </h4>
         <div class="product-rating">
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
         </div>
         <div class="product-btns">
-        <button class="add-to-wishlist">
-            <i class="fa fa-heart-o"></i
-            ><span class="tooltipp">add to wishlist</span>
-        </button>
-        <button class="add-to-compare">
-            <i class="fa fa-exchange"></i
-            ><span class="tooltipp">add to compare</span>
-        </button>
-        <button class="quick-view">
-            <i class="fa fa-eye"></i
-            ><span class="tooltipp">quick view</span>
-        </button>
+            <button class="add-to-wishlist">
+                <i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span>
+            </button>
+            <button class="add-to-compare">
+                <i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span>
+            </button>
+            <button type="button" class="btn btn-default quick-view"
+                style="width: 40px; height: 40px; padding: 1px 6px; line-height: 40px; text-align: center;"
+                data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" title="Product Preview"
+                data-content="{{ product.quick_view_description }}">
+                <i class="fa fa-eye"></i>
+            </button>
         </div>
     </div>
     <div class="add-to-cart">
         <button class="add-to-cart-btn" data-product-id={{ product.id }}>
-        <i class="fa fa-shopping-cart"></i> add to cart
+            <i class="fa fa-shopping-cart"></i> add to cart
         </button>
     </div>
 </div>

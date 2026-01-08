@@ -12,7 +12,7 @@ class ProductVideoInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['name', 'description', 'details', 'price', 'price_compare_to', 'collection', 'manufacturer']}),
+        (None, {'fields': ['name', 'description', 'quick_view_description', 'details', 'price', 'price_compare_to', 'collection', 'manufacturer']}),
     ]
     inlines = [ProductImageInline, ProductVideoInline]
     list_display = ('name', 'price', 'collection')

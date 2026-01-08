@@ -166,3 +166,4 @@ def create_order(request, user_id, payment_method, total_price):
     cache.delete(user_id)
 
     return JsonResponse({'message': 'Order created successfully!'})
+

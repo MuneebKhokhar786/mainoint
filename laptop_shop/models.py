@@ -36,6 +36,8 @@ class Product(TimestampMixin):
         Collection, on_delete=models.SET_NULL, null=True, blank=True, db_index=True)
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.SET_NULL, null=True, blank=True, db_index=True)
+
+    quick_view_description = models.TextField(null=True, blank=True, default=None, verbose_name='Quick View')
     
     @property
     def discount_percentage(self):
