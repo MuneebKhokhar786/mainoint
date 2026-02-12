@@ -1,5 +1,3 @@
 {
-  "scripts": {
-    "postinstall": "python manage.py collectstatic --noinput"
-  }
+  "build": "python manage.py collectstatic --noinput"
 }
