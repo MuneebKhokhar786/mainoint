@@ -34,8 +34,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-ALLOWED_HOSTS = ['mainpointelectronics.com', 'www.mainpointelectronics.com']
+DEBUG = True
+ALLOWED_HOSTS = ['0.0.0.0','mainpointelectronics.com', 'www.mainpointelectronics.com']
 
 
 # Application definition
