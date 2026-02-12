@@ -35,7 +35,7 @@ SECRET_KEY = env('KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['0.0.0.0','mainpointelectronics.com', 'www.mainpointelectronics.com']
+ALLOWED_HOSTS = ['mainoint-production.up.railway.app','mainpointelectronics.com', 'www.mainpointelectronics.com']
 
 
 # Application definition
