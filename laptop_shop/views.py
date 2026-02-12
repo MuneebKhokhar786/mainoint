@@ -105,9 +105,9 @@ def send_email(request):
     data = json.loads(request.body)
     subject = data.get('name') + ' - ' + data.get('email')
     message = data.get('message')
-    recipient_list = ['dev.muneeb.khokhar@gmail.com']
+    recipient_list = ['info@mainpointelectronics.com']
 
-    send_mail(subject, message, 'dev.muneeb.khokhar@gmail.com', recipient_list)
+    send_mail(subject, message, 'info@mainpointelectronics.com', recipient_list)
     return JsonResponse({'message': 'Email sent successfully!'})
 
 def show(request, product_slug):

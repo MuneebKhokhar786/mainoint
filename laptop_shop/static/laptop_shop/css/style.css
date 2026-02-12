@@ -525,6 +525,10 @@ textarea.input {
   border-radius: 0px 40px 40px 0px;
 }
 
+#product-search-form {
+  display: flex
+}
+
 /*----------------------------*\
 	Cart
 \*----------------------------*/
