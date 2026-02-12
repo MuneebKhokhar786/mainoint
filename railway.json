@@ -2,11 +2,7 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "RAILPACK",
-    "buildEnvironment": "V3",
-    "post-build": [
-      "echo 'Build finished!'",
-      "python manage.py collectstatic --noinput"
-    ]
+    "buildEnvironment": "V3"
   },
   "deploy": {
     "runtime": "V2",
