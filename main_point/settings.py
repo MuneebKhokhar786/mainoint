@@ -35,7 +35,7 @@ SECRET_KEY = env('KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['mainoint-production.up.railway.app','mainpointelectronics.com', 'www.mainpointelectronics.com']
+ALLOWED_HOSTS = ['mainoint-production.up.railway.app', 'mainpointelectronics.com', 'www.mainpointelectronics.com']
 
 
 # Application definition
@@ -119,6 +119,16 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.mainpointelectronics.com",
+    "https://mainpointelectronics.com",
+]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
